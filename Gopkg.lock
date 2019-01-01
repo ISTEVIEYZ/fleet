@@ -103,7 +103,7 @@
   version = "v0.1.1"
 
 [[projects]]
-  digest = "1:75966d4ec68a608a7f9c1c25b02215027b04b2615a09f5b733683098130f62ee"
+  digest = "1:e81419c7c76b0bbd0a61b59b277734b3d8e95a594c5675fc8701b035b4f7ef45"
   name = "github.com/oakmound/oak"
   packages = [
     ".",
@@ -113,6 +113,7 @@
     "audio",
     "collision",
     "dlog",
+    "entities",
     "event",
     "fileutil",
     "key",
@@ -245,6 +246,11 @@
   analyzer-version = 1
   input-imports = [
     "github.com/oakmound/oak",
+    "github.com/oakmound/oak/entities",
+    "github.com/oakmound/oak/event",
+    "github.com/oakmound/oak/key",
+    "github.com/oakmound/oak/physics",
+    "github.com/oakmound/oak/render",
     "github.com/oakmound/oak/scene",
   ]
   solver-name = "gps-cdcl"
