@@ -2,79 +2,30 @@ package game
 
 import (
 	"fleet/game/entity"
-	"fleet/game/window"
-
-	"github.com/veandco/go-sdl2/sdl"
-)
-
-// Constants for the game loop
-const (
-	TICK_RATE = 1.0 / 60.0
 )
 
 // Global variables
 var (
-	renderer *sdl.Renderer
-	player   entity.Player
+	player entity.Player
 )
-
-// Init initializes SDL
-func Init() {
-	sdl.Init(sdl.INIT_EVERYTHING)
-	window.Init()
-	renderer = window.GetRenderer()
-}
-
-// Run the main game loop
-func Run() {
-	setup()
-
-	// Fixed timestep initial setup
-	currentTime := float64(sdl.GetTicks()) / 1000.0
-	accumulator := 0.0
-
-	// Game loop
-	for true {
-		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
-			switch event.(type) {
-			case *sdl.QuitEvent:
-				return
-			}
-		}
-
-		newTime := float64(sdl.GetTicks()) / 1000.0
-		frameTime := newTime - currentTime
-
-		if frameTime > 0.25 {
-			accumulator += 0.25
-		} else {
-			accumulator += frameTime
-		}
-
-		for accumulator >= TICK_RATE {
-			update()
-			accumulator -= TICK_RATE
-		}
-
-		alpha := accumulator / TICK_RATE
-		draw(alpha)
-	}
-}
 
 func setup() {
 	player, _ = entity.LoadPlayer(renderer, "./assets/images/ship.png")
+	player.Entity.Position.X = 100
+	player.Entity.Position.Y = 100
+	player.Entity.Scale.W = player.Entity.Size.W / 3.0
+	player.Entity.Scale.H = player.Entity.Size.H / 3.0
 }
 
 func update() {
-	// TODO: Pass in event for movement
-	entity.Update(&player, TICK_RATE)
+	player.Update(tickRate)
 }
 
 func draw(alpha float64) {
 	renderer.SetDrawColor(1, 8, 20, 255)
 	renderer.Clear()
 
-	entity.Draw(&player, renderer, alpha)
+	player.Draw(renderer, alpha)
 
 	renderer.Present()
 }
