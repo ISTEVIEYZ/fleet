@@ -1,30 +1,80 @@
 package game
 
 import (
-	player "fleet/game/client"
+	"fleet/game/entity"
+	"fleet/game/window"
 
-	"github.com/oakmound/oak"
-	"github.com/oakmound/oak/scene"
+	"github.com/veandco/go-sdl2/sdl"
 )
+
+// Constants for the game loop
+const (
+	TICK_RATE = 1.0 / 60.0
+)
+
+// Global variables
+var (
+	renderer *sdl.Renderer
+	player   entity.Player
+)
+
+// Init initializes SDL
+func Init() {
+	sdl.Init(sdl.INIT_EVERYTHING)
+	window.Init()
+	renderer = window.GetRenderer()
+}
 
 // Run the main game loop
 func Run() {
-	oak.Add("firstScene",
-		// Initialization function
-		func(prevScene string, inData interface{}) {
-			player.Update()
-		},
+	setup()
 
-		// Loop to continue or stop the current scene
-		func() bool { return true },
+	// Fixed timestep initial setup
+	currentTime := float64(sdl.GetTicks()) / 1000.0
+	accumulator := 0.0
 
-		// Exit to transition to the next scene
-		func() (nextScene string, result *scene.Result) { return "firstScene", nil })
+	// Game loop
+	for true {
+		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
+			switch event.(type) {
+			case *sdl.QuitEvent:
+				return
+			}
+		}
 
-	// render.SetDrawStack(
-	// 	render.NewCompositeR(),
-	// 	render.NewDrawFPS(),
-	// )
+		newTime := float64(sdl.GetTicks()) / 1000.0
+		frameTime := newTime - currentTime
 
-	oak.Init("firstScene")
+		if frameTime > 0.25 {
+			accumulator += 0.25
+		} else {
+			accumulator += frameTime
+		}
+
+		for accumulator >= TICK_RATE {
+			update()
+			accumulator -= TICK_RATE
+		}
+
+		alpha := accumulator / TICK_RATE
+		draw(alpha)
+	}
+}
+
+func setup() {
+	player, _ = entity.LoadPlayer(renderer, "./assets/images/ship.png")
+}
+
+func update() {
+	// TODO: Pass in event for movement
+	entity.Update(&player, TICK_RATE)
+}
+
+func draw(alpha float64) {
+	renderer.SetDrawColor(1, 8, 20, 255)
+	renderer.Clear()
+
+	entity.Draw(&player, renderer, alpha)
+
+	renderer.Present()
 }
