@@ -18,7 +18,7 @@ func setup() {
 }
 
 func update() {
-	player.Update(TICK_RATE)
+	player.Update(tickRate)
 }
 
 func draw(alpha float64) {

@@ -12,11 +12,11 @@ type window struct {
 
 // Window default values
 const (
-	TITLE  = "Fleet"
-	WIDTH  = 1280
-	HEIGHT = 720
-	X      = sdl.WINDOWPOS_CENTERED
-	Y      = sdl.WINDOWPOS_CENTERED
+	title  = "Fleet"
+	width  = 1280
+	height = 720
+	x      = sdl.WINDOWPOS_CENTERED
+	y      = sdl.WINDOWPOS_CENTERED
 )
 
 var win window
@@ -57,7 +57,7 @@ func DestroyRenderer() {
 }
 
 func createWindow() (err error) {
-	win.window, err = sdl.CreateWindow(TITLE, X, Y, WIDTH, HEIGHT, sdl.WINDOW_OPENGL)
+	win.window, err = sdl.CreateWindow(title, x, y, width, height, sdl.WINDOW_OPENGL)
 
 	if err != nil {
 		return err
