@@ -4,7 +4,7 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-// Player holds all the properties of a world object
+// Player holds all the properties of a controllable object
 type Player struct {
 	Entity Entity
 	Speed  float64

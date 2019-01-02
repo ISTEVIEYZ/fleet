@@ -8,7 +8,7 @@ import (
 
 // Constants for the game loop
 const (
-	tickRate = 1.0 / 60.0
+	TICK_RATE = 1.0 / 60.0
 )
 
 // Global variables
@@ -49,12 +49,12 @@ func Run() {
 			accumulator += frameTime
 		}
 
-		for accumulator >= tickRate {
+		for accumulator >= TICK_RATE {
 			update()
-			accumulator -= tickRate
+			accumulator -= TICK_RATE
 		}
 
-		alpha := accumulator / tickRate
+		alpha := accumulator / TICK_RATE
 		draw(alpha)
 	}
 }
