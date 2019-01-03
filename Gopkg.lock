@@ -2,24 +2,14 @@
 
 
 [[projects]]
-  digest = "1:08d9e5fb03dac1260bc2c26079eda2b511180668507782798f2aa3347da8cc67"
   name = "github.com/veandco/go-sdl2"
-  packages = [
-    "gfx",
-    "img",
-    "sdl",
-  ]
-  pruneopts = "UT"
+  packages = ["img","sdl"]
   revision = "271d2ec43388932fd2a80f4c2e81021734685a62"
   version = "v0.3"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = [
-    "github.com/veandco/go-sdl2/gfx",
-    "github.com/veandco/go-sdl2/img",
-    "github.com/veandco/go-sdl2/sdl",
-  ]
+  inputs-digest = "586f8cb8384266bc8b2420497faa65c9554998ba9451c35becac3d27e2ddab61"
   solver-name = "gps-cdcl"
   solver-version = 1
