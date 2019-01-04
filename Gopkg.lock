@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  branch = "master"
+  digest = "1:f8d9a774860b247f8a362b93ed1acc1c0db88c27ef5510c7428168c067f3301b"
+  name = "github.com/go-gl/gl"
+  packages = ["v4.1-core/gl"]
+  pruneopts = "UT"
+  revision = "55b76b7df9d25d70b63e31a767f47158292b85d8"
+
+[[projects]]
   digest = "1:ee7c99bdf6d1ef0ba24f3e2d88a46e6a10afc87ee963c69a42346e4178f4b464"
   name = "github.com/veandco/go-sdl2"
   packages = [
@@ -16,6 +24,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/go-gl/gl/v4.1-core/gl",
     "github.com/veandco/go-sdl2/img",
     "github.com/veandco/go-sdl2/sdl",
   ]
