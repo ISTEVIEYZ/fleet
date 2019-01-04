@@ -24,25 +24,28 @@ func main() {
 
 	// Run game
 	run()
-
-	// Clean and exit
-	clean()
 }
 
 func initialize() {
 	sdl.Init(sdl.INIT_EVERYTHING)
+	defer sdl.Quit()
 
 	window, err := sdl.CreateWindow("Fleet", sdl.WINDOWPOS_CENTERED, sdl.WINDOWPOS_CENTERED, 1280, 720, sdl.WINDOW_OPENGL)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+	defer window.Destroy()
 
 	context, err = window.GLCreateContext()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+	defer sdl.GLDeleteContext(context)
+
+	// Initialize OpenGL
+	gl.Init()
 }
 
 func setOpenGLAttributes() {
@@ -80,15 +83,4 @@ func run() {
 		// 		SDL_RenderPresent(&renderer);
 		window.GLSwap()
 	}
-}
-
-func clean() {
-	// Delete our OpengL context
-	sdl.GLDeleteContext(context)
-
-	// Destroy our window
-	window.Destroy()
-
-	// Shutdown SDL 2
-	sdl.Quit()
 }
