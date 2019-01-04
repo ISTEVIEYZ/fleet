@@ -11,6 +11,7 @@ var (
 
 func setup() {
 	player, _ = entity.LoadPlayer(renderer, "./assets/images/ship.png")
+	player.Speed = 0.5
 	player.Entity.Position.X = 100
 	player.Entity.Position.Y = 100
 	player.Entity.Scale.W = player.Entity.Size.W / 3.0

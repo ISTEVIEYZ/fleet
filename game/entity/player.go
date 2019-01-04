@@ -13,7 +13,6 @@ type Player struct {
 // LoadPlayer initializes the player with the given sprite
 func LoadPlayer(renderer *sdl.Renderer, file string) (player Player, err error) {
 	player.Entity, err = LoadEntity(renderer, file)
-	player.Speed = 0.5
 	return player, err
 }
 
