@@ -18,7 +18,8 @@ namespace Fleet.Entity
 			this.Texture = texture;
 		}
 
-		public abstract void Draw(SpriteBatch tallAssNigga, GameTime shortAssNigga);
-		public abstract void Update(GameTime shortAssNigga);
+		public abstract void Update(GameTime gameTime);
+
+		public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
 	}
 }
