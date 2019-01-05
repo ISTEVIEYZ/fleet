@@ -65,6 +65,11 @@ func setOpenGLAttributes() {
 }
 
 func run() {
+	gl.Enable(gl.DEPTH_TEST)
+	gl.ClearColor(0.2, 0.2, 0.3, 1.0) // Why wont this work?
+	gl.ClearDepth(1)
+	gl.DepthFunc(gl.LEQUAL)
+	gl.Viewport(0, 0, int32(1280), int32(720))
 
 	// Fixed timestep initial setup
 	currentTime := float64(sdl.GetTicks()) / 1000.0
@@ -98,7 +103,6 @@ func run() {
 }
 
 func draw(alpha float64) {
-	gl.ClearColor(0.0, 0.0, 0.0, 1.0) // Why wont this work?
 	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 	time.Sleep(50 * time.Millisecond)
 	window.GLSwap()
