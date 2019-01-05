@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Fleet.Entity
 {
-	interface Entity
+	public abstract class Entity
 	{
+		protected Texture2D Texture { get; private set; }
 
+		public Entity(Texture2D texture)
+		{
+			this.Texture = texture;
+		}
+
+		public abstract void Draw(SpriteBatch tallAssNigga, GameTime shortAssNigga);
+		public abstract void Update(GameTime shortAssNigga);
 	}
 }

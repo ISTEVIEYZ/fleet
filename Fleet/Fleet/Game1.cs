@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Fleet.Entity;
 
 namespace Fleet
 {
@@ -11,6 +12,9 @@ namespace Fleet
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
+
+		Ship ship;
+		
 
 		public Game1()
 		{
@@ -40,6 +44,9 @@ namespace Fleet
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
+			ship = new Ship(Content.Load<Texture2D>("ship"));
+
+
 			// TODO: use this.Content to load your game content here
 		}
 
@@ -63,6 +70,7 @@ namespace Fleet
 			Exit();
 
 			// TODO: Add your update logic here
+			ship.Update(gameTime);
 
 			base.Update(gameTime);
 		}
@@ -76,6 +84,9 @@ namespace Fleet
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
 			// TODO: Add your drawing code here
+			spriteBatch.Begin();
+			ship.Draw(spriteBatch, gameTime);
+			spriteBatch.End();
 
 			base.Draw(gameTime);
 		}
