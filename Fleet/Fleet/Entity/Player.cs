@@ -49,7 +49,7 @@ namespace Fleet.Entity
 			{
 				Rotation += 0.2f;
 			}
-			
+
 			while (this.Rotation > Math.PI * 2.0f)
 			{
 				this.Rotation -= (float)Math.PI * 2.0f;
@@ -82,7 +82,7 @@ namespace Fleet.Entity
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			spriteBatch.Draw(this.Texture, Position, null, Color.White, this.Rotation, new Vector2(Texture.Width/2.0f, Texture.Height/2.0f), 1, SpriteEffects.None, 1);
+			spriteBatch.Draw(this.Texture, Position, null, Color.White, this.Rotation, new Vector2(Texture.Width / 2.0f, Texture.Height / 2.0f), 1, SpriteEffects.None, 1);
 
 			for (int i = 0; i < projectileList.Count; i++)
 			{

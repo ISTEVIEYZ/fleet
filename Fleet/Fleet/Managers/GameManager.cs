@@ -17,7 +17,7 @@ namespace Fleet.Managers
 		// not to mark type as beforefieldinit
 		static GameManager() { }
 
-		private GameManager() {}
+		private GameManager() { }
 
 		public static GameManager Instance
 		{
