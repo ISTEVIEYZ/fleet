@@ -61,6 +61,7 @@ namespace Fleet
             entityList.Add(enemy);
 
 			ship = new Ship(Content.Load<Texture2D>("ship"));
+            ship.Position = new Vector2(680, 360);
             entityList.Add(ship);
 
 

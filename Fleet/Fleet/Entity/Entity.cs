@@ -15,6 +15,11 @@ namespace Fleet.Entity
 
         public Vector2 Position;
 
+        public float Rotation;
+        public Vector2 Velocity;
+        public Vector2 Acceleration;
+        public float TurnAcceleration;
+
 
 		public Entity(Texture2D texture)
 		{
