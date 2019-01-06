@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Fleet.Managers;
+﻿using Fleet.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -36,7 +31,6 @@ namespace Fleet
 
 			this.boundsOffset.X = Viewport.Width * 0.05f;
 			this.boundsOffset.Y = Viewport.Height * 0.05f;
-			
 		}
 
         // Sets and gets zoom
@@ -118,27 +112,27 @@ namespace Fleet
 
         public void LookAt(Vector2 position)
         {
-            position = position - new Vector2(Viewport.Width / 2f,
-                Viewport.Height / 2f);
+            position = position - new Vector2(Viewport.Width / 2f, Viewport.Height / 2f);
         }
 
-        public Vector2 WorldToScreen(Vector2 worldPosition, GraphicsDevice graphicsDevice)
+        public Vector2 WorldToScreen(Vector2 worldPosition)
         {
-            return Vector2.Transform(worldPosition, GetTransformation(graphicsDevice));
+            return Vector2.Transform(worldPosition, GetTransformation());
         }
 
-        public Vector2 ScreenToWorld(Vector2 screenPosition, GraphicsDevice graphicsDevice)
+        public Vector2 ScreenToWorld(Vector2 screenPosition)
         {
-            return Vector2.Transform(screenPosition, Matrix.Invert(GetTransformation(graphicsDevice)));
+            return Vector2.Transform(screenPosition, Matrix.Invert(GetTransformation()));
         }
 
-        public Matrix GetTransformation(GraphicsDevice graphicsDevice)
+        public Matrix GetTransformation()
         {
-            transform =
-              Matrix.CreateTranslation(new Vector3(-position.X, -position.Y, 0)) *
-                                         Matrix.CreateRotationZ(Rotation) *
-                                         Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
-                                         Matrix.CreateTranslation(new Vector3(Viewport.Width * 0.5f, Viewport.Height * 0.5f, 0));
+            transform = Matrix.CreateTranslation(
+				new Vector3(-position.X, -position.Y, 0)) *
+				Matrix.CreateRotationZ(Rotation) *
+				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
+				Matrix.CreateTranslation(new Vector3(Viewport.Width * 0.5f, Viewport.Height * 0.5f, 0));
+
             return transform;
         }
     }

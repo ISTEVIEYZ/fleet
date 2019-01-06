@@ -1,9 +1,6 @@
 ﻿using Fleet.Entity;
-using System;
+using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fleet.Managers
 {
@@ -13,6 +10,8 @@ namespace Fleet.Managers
 
 		public List<Entity.Entity> entityList = new List<Entity.Entity>();
 		public Player activePlayer;
+		public ContentManager content;
+		public Camera camera;
 
 		// Explicit static constructor to tell C# compiler
 		// not to mark type as beforefieldinit

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
 using Fleet.Entity;
 using Fleet.Managers;
 
@@ -16,7 +15,6 @@ namespace Fleet
 		SpriteBatch spriteBatch;
 
 		SpriteFont font;
-		Camera camera;
 
 		public Game1()
 		{
@@ -37,7 +35,9 @@ namespace Fleet
 		/// </summary>
 		protected override void Initialize()
 		{
-			camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.2f, 0);
+			Camera camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.2f, 0);
+			GameManager.Instance.camera = camera;
+
 			base.Initialize();
 		}
 
@@ -54,6 +54,7 @@ namespace Fleet
 			Enemy enemy = new Enemy(Content.Load<Texture2D>("ship"));
 			Player player = new Player(Content.Load<Texture2D>("ship"));
 
+			GameManager.Instance.content = Content;
 			GameManager.Instance.activePlayer = player;
 			GameManager.Instance.entityList.Add(player);
 			GameManager.Instance.entityList.Add(enemy);
@@ -85,7 +86,7 @@ namespace Fleet
 			}
 
 			// Update others
-			camera.Update();
+			GameManager.Instance.camera.Update();
 
 			base.Update(gameTime);
 		}
@@ -99,7 +100,7 @@ namespace Fleet
 			GraphicsDevice.Clear(Color.Black);
 
 			// Draw world and players
-			spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, null, camera.GetTransformation(GraphicsDevice));
+			spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, null, GameManager.Instance.camera.GetTransformation());
 			foreach (Entity.Entity entity in GameManager.Instance.entityList)
 			{
 				entity.Draw(spriteBatch, gameTime);

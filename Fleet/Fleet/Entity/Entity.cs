@@ -21,7 +21,6 @@ namespace Fleet.Entity
 
 		public float TurnAcceleration;
 
-
 		public Entity(Texture2D texture)
 		{
 			this.Texture = texture;

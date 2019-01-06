@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using Fleet.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,6 +9,8 @@ namespace Fleet.Entity
 {
 	public class Player : Entity
 	{
+		public List<Projectile> projectileList = new List<Projectile>();
+
 		public Player(Texture2D texture) : base(texture)
 		{
 			// this.Acceleration = 0.2f;
@@ -21,7 +20,9 @@ namespace Fleet.Entity
 		public override void Update(GameTime gameTime)
 		{
 			var currentKBState = Keyboard.GetState();
+			var currentMouseState = Mouse.GetState();
 
+			// Accelerate
 			if (currentKBState.IsKeyDown(Keys.W))
 			{
 				Acceleration.X = (float)Math.Cos(Rotation);
@@ -39,11 +40,11 @@ namespace Fleet.Entity
 				Acceleration.Y = (float)Math.Sin(Rotation) * -1f;
 			}
 
+			// Rotate
 			if (currentKBState.IsKeyDown(Keys.A))
 			{
 				Rotation -= 0.2f;
 			}
-
 			if (currentKBState.IsKeyDown(Keys.D))
 			{
 				Rotation += 0.2f;
@@ -73,11 +74,26 @@ namespace Fleet.Entity
 
 			Position.X = Position.X + Velocity.X * (gameTime.ElapsedGameTime.Milliseconds / 1000f);
 			Position.Y = Position.Y + Velocity.Y * (gameTime.ElapsedGameTime.Milliseconds / 1000f);
+
+			if (currentMouseState.LeftButton == ButtonState.Pressed)
+			{
+				projectileList.Add(new Projectile(GameManager.Instance.content.Load<Texture2D>("ship2"), this.Position));
+			}
+
+			for (int i = 0; i < projectileList.Count; i++)
+			{
+				projectileList[i].Update(gameTime);
+			}
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
 			spriteBatch.Draw(this.Texture, Position, null, Color.White, this.Rotation, new Vector2(Texture.Width/2.0f, Texture.Height/2.0f), 1, SpriteEffects.None, 1);
+
+			for (int i = 0; i < projectileList.Count; i++)
+			{
+				projectileList[i].Draw(spriteBatch, gameTime);
+			}
 		}
 	}
 }
