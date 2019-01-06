@@ -9,7 +9,6 @@ namespace Fleet.Entity
 	public class Projectile : Entity
 	{
 		private Vector2 mousePosition;
-		private Vector2 playerPosition;
 
 		public Projectile(Texture2D texture) : base(texture) { }
 
@@ -17,7 +16,7 @@ namespace Fleet.Entity
 		{
 			var mouseState = Mouse.GetState();
 
-			this.playerPosition = position;
+			this.Position = position;
 			this.mousePosition = GameManager.Instance.camera.ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
 		}
 
@@ -39,7 +38,7 @@ namespace Fleet.Entity
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			spriteBatch.Draw(this.Texture, Position, null, Color.White, this.Rotation, new Vector2(Texture.Width / 2.0f, Texture.Height / 2.0f), 1, SpriteEffects.None, 1);
+			spriteBatch.Draw(this.Texture, this.Position, null, Color.White, this.Rotation, new Vector2(Texture.Width / 2.0f, Texture.Height / 2.0f), 2, SpriteEffects.None, 1);
 		}
 	}
 }

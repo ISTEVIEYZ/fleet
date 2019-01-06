@@ -49,12 +49,6 @@ namespace Fleet.Entity
 			{
 				Rotation += 0.2f;
 			}
-
-			if (currentKBState.IsKeyDown(Keys.Space))
-			{
-				this.Acceleration = Vector2.Zero;
-				this.Velocity = Vector2.Zero;
-			}
 			
 			while (this.Rotation > Math.PI * 2.0f)
 			{
