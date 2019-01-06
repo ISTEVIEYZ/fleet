@@ -12,8 +12,6 @@ namespace Fleet.Entity
 {
 	public class Ship : Entity
 	{
-		const float dragDeceleration = -1f;
-
 		public Ship(Texture2D texture) : base(texture)
 		{
 			// this.Acceleration = 0.2f;
@@ -31,8 +29,8 @@ namespace Fleet.Entity
 			}
 			else if (gameTime.ElapsedGameTime.Milliseconds > 0)
 			{
-				Acceleration.X = dragDeceleration * (Velocity.X / (gameTime.ElapsedGameTime.Milliseconds / 1000.0f));
-				Acceleration.Y = dragDeceleration * (Velocity.Y / (gameTime.ElapsedGameTime.Milliseconds / 1000.0f));
+				Acceleration.X = -1f * (Velocity.X / (gameTime.ElapsedGameTime.Milliseconds / 1000.0f));
+				Acceleration.Y = -1f * (Velocity.Y / (gameTime.ElapsedGameTime.Milliseconds / 1000.0f));
 			}
 
 			if (currentKBState.IsKeyDown(Keys.S))
