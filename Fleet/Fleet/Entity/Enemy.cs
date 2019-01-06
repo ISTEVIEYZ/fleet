@@ -9,26 +9,22 @@ namespace Fleet.Entity
 	{
 		Vector2 playerPosition;
 
-		public Enemy(Texture2D texture) : base(texture)
-		{
-			Position = new Vector2(300, 500);
-		}
-
-
-		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
-		{
-			spriteBatch.Draw(texture: this.Texture, position: this.Position, color: Color.White);
-		}
+		public Enemy(string filePath) : base(filePath) { }
 
 		public override void Update(GameTime gameTime)
 		{
-			foreach (Entity player in GameManager.Instance.entityList.OfType<Player>())
+			foreach (Entity player in GameManager.Instance.Entities.OfType<Player>())
 			{
-				playerPosition = player.Position;
+				playerPosition = player.position;
 				break;
 			}
 
-			Position = Vector2.Lerp(Position, playerPosition, 0.001f);
+			position = Vector2.Lerp(position, playerPosition, 0.001f);
+		}
+
+		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+		{
+			spriteBatch.Draw(Texture, position, color);
 		}
 	}
 }

@@ -3,47 +3,41 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Fleet
+namespace Fleet.Screen
 {
 	public class Camera
 	{
 		public Viewport Viewport;
-		public Matrix transform; // Matrix Transform
+		public Matrix transform;
 
-		protected float rotation; // Camera Rotation
+		private float _zoom;
+		private float _rotation;
+		private Vector2 _position;
+		private Vector2 _boundsOffset;
 
-		private Vector2 boundsOffset;
-		private float zoom; // Camera Zoom
-		private Vector2 position; // Camera Position
+		public Vector2 Position { get { return _position; } set { _position = value; } }
 
-		public Vector2 Position
+		public float Rotation { get { return _rotation; } set { _rotation = value; } }
+
+		public float Zoom
 		{
-			get { return this.position; }
-			set { position = value; }
+			get { return _zoom; }
+			set
+			{
+				_zoom = value;
+				_zoom = _zoom < 0.1f ? 0.1f : _zoom; // Negative zoom will flip image
+			}
 		}
 
 		public Camera(Viewport viewport, Vector2 startPosition, float startZoom, float startRotation)
 		{
-			this.position = startPosition;
-			this.zoom = startZoom;
-			this.rotation = startRotation;
-			this.Viewport = viewport;
+			Position = startPosition;
+			Zoom = startZoom;
+			Rotation = startRotation;
+			Viewport = viewport;
 
-			this.boundsOffset.X = Viewport.Width * 0.05f;
-			this.boundsOffset.Y = Viewport.Height * 0.05f;
-		}
-
-		// Sets and gets zoom
-		public float Zoom
-		{
-			get { return zoom; }
-			set { zoom = value; if (zoom < 0.1f) zoom = 0.1f; } // Negative zoom will flip image
-		}
-
-		public float Rotation
-		{
-			get { return rotation; }
-			set { rotation = value; }
+			_boundsOffset.X = Viewport.Width * 0.05f;
+			_boundsOffset.Y = Viewport.Height * 0.05f;
 		}
 
 		public void Update()
@@ -52,62 +46,62 @@ namespace Fleet
 			var currentMouseState = Mouse.GetState();
 
 			// Move camera with mouse
-			if (currentMouseState.X <= boundsOffset.X)
+			if (currentMouseState.X <= _boundsOffset.X && currentMouseState.X > 0)
 			{
-				this.position.X -= 50;
+				_position.X -= 50;
 			}
-			if (currentMouseState.X >= Viewport.Width - boundsOffset.X)
+			if (currentMouseState.X >= Viewport.Width - _boundsOffset.X && currentMouseState.X < Viewport.Width)
 			{
-				this.position.X += 50;
+				_position.X += 50;
 			}
-			if (currentMouseState.Y <= boundsOffset.Y)
+			if (currentMouseState.Y <= _boundsOffset.Y && currentMouseState.Y > 0)
 			{
-				this.position.Y -= 50;
+				_position.Y -= 50;
 			}
-			if (currentMouseState.Y >= Viewport.Height - boundsOffset.Y)
+			if (currentMouseState.Y >= Viewport.Height - _boundsOffset.Y && currentMouseState.Y < Viewport.Height)
 			{
-				this.position.Y += 50;
+				_position.Y += 50;
 			}
 
 			// Move camera with keyboard
 			if (currentKBState.IsKeyDown(Keys.Up))
 			{
-				this.position.Y -= 50;
+				_position.Y -= 50;
 			}
 			if (currentKBState.IsKeyDown(Keys.Down))
 			{
-				this.position.Y += 50;
+				_position.Y += 50;
 			}
 			if (currentKBState.IsKeyDown(Keys.Left))
 			{
-				this.position.X -= 50;
+				_position.X -= 50;
 			}
 			if (currentKBState.IsKeyDown(Keys.Right))
 			{
-				this.position.X += 50;
+				_position.X += 50;
 			}
 
 			// Camera Zoom
 			if (currentKBState.IsKeyDown(Keys.X))
 			{
-				this.zoom -= 0.01f;
+				Zoom -= 0.01f;
 			}
 			if (currentKBState.IsKeyDown(Keys.Z))
 			{
-				this.zoom += 0.01f;
+				Zoom += 0.01f;
 			}
 
 			// Camera default position
 			if (currentKBState.IsKeyDown(Keys.Space))
 			{
-				this.position = GameManager.Instance.activePlayer.Position;
+				_position = GameManager.Instance.player.position;
 			}
 		}
 
 		// Auxiliary function to move the camera
 		public void Move(Vector2 amount)
 		{
-			position += amount;
+			_position += amount;
 		}
 
 		public void LookAt(Vector2 position)
@@ -128,7 +122,7 @@ namespace Fleet
 		public Matrix GetTransformation()
 		{
 			transform = Matrix.CreateTranslation(
-				new Vector3(-position.X, -position.Y, 0)) *
+				new Vector3(-_position.X, -_position.Y, 0)) *
 				Matrix.CreateRotationZ(Rotation) *
 				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
 				Matrix.CreateTranslation(new Vector3(Viewport.Width * 0.5f, Viewport.Height * 0.5f, 0));

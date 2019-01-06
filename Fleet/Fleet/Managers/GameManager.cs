@@ -1,5 +1,5 @@
 ﻿using Fleet.Entity;
-using Microsoft.Xna.Framework.Content;
+using Fleet.Screen;
 using System.Collections.Generic;
 
 namespace Fleet.Managers
@@ -8,23 +8,16 @@ namespace Fleet.Managers
 	{
 		private static readonly GameManager instance = new GameManager();
 
-		public List<Entity.Entity> entityList = new List<Entity.Entity>();
-		public Player activePlayer;
-		public ContentManager content;
 		public Camera camera;
+		public Player player;
 
-		// Explicit static constructor to tell C# compiler
-		// not to mark type as beforefieldinit
+		public List<Entity.Entity> Entities { get; } = new List<Entity.Entity>();
+
+		// Explicit static constructor to tell C# compiler not to mark type as beforefieldinit.
 		static GameManager() { }
 
 		private GameManager() { }
 
-		public static GameManager Instance
-		{
-			get
-			{
-				return instance;
-			}
-		}
+		public static GameManager Instance { get { return instance; } }
 	}
 }
