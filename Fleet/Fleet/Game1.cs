@@ -51,7 +51,7 @@ namespace Fleet
 			ResourceManager.Instance.SetContentManager(Content);
 
 			// Load game assets
-			font = ResourceManager.Instance.GetFont(Fonts.DEFAULT_FONT);
+			font = ResourceManager.Instance.GetFont(Fonts.CALIBRI);
 			Player player = new Player(Sprites.DEFAULT_SHIP);
 			Enemy enemy = new Enemy(Sprites.TITAN_SHIP) { position = new Vector2(300, 500), color = Color.RoyalBlue };
 

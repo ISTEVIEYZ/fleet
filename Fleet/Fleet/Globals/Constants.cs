@@ -2,13 +2,17 @@
 {
 	public sealed class Sprites
 	{
-		public const string DEFAULT_SHIP = "ship";
-		public const string TITAN_SHIP = "titan";
-		public const string BULLET = "ship2";
+		private const string FOLDER = "Sprites/";
+
+		public const string DEFAULT_SHIP = FOLDER + "ship";
+		public const string TITAN_SHIP = FOLDER + "titan";
+		public const string BULLET = FOLDER + "bullet";
 	}
 
 	public sealed class Fonts
 	{
-		public const string DEFAULT_FONT = "font";
+		private const string FOLDER = "Fonts/";
+
+		public const string CALIBRI = FOLDER + "calibri";
 	}
 }
