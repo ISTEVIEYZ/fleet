@@ -12,10 +12,9 @@ namespace Fleet.Entity
 {
 	public class Ship : Entity
 	{
-		Vector2 position;
 		float speed;
 
-		public Ship(Texture2D texture) : base(texture)
+        public Ship(Texture2D texture) : base(texture)
 		{
 			this.speed = 0.5f;
 		}
@@ -26,28 +25,28 @@ namespace Fleet.Entity
 
 			if (currentKBState.IsKeyDown(Keys.W))
 			{
-				this.position.Y -= this.speed * gameTime.ElapsedGameTime.Milliseconds;
+				this.Position.Y -= this.speed * gameTime.ElapsedGameTime.Milliseconds;
 			}
 
 			if (currentKBState.IsKeyDown(Keys.S))
 			{
-				this.position.Y += this.speed * gameTime.ElapsedGameTime.Milliseconds;
+				this.Position.Y += this.speed * gameTime.ElapsedGameTime.Milliseconds;
 			}
 
 			if (currentKBState.IsKeyDown(Keys.A))
 			{
-				this.position.X -= this.speed * gameTime.ElapsedGameTime.Milliseconds;
+				this.Position.X -= this.speed * gameTime.ElapsedGameTime.Milliseconds;
 			}
 
 			if (currentKBState.IsKeyDown(Keys.D))
 			{
-				this.position.X += this.speed * gameTime.ElapsedGameTime.Milliseconds;
+				this.Position.X += this.speed * gameTime.ElapsedGameTime.Milliseconds;
 			}
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			spriteBatch.Draw(texture: this.Texture, position: this.position, color: Color.White);
+			spriteBatch.Draw(texture: this.Texture, position: this.Position, color: Color.White);
 		}
 	}
 }

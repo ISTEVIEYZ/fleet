@@ -13,6 +13,9 @@ namespace Fleet.Entity
 	{
 		protected Texture2D Texture { get; private set; }
 
+        public Vector2 Position;
+
+
 		public Entity(Texture2D texture)
 		{
 			this.Texture = texture;
