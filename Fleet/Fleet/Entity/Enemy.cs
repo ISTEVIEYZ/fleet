@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Fleet;
+using Fleet.Managers;
 
 namespace Fleet.Entity
 {
@@ -26,9 +27,9 @@ namespace Fleet.Entity
 
         public override void Update(GameTime gameTime)
         {
-            foreach (Entity entity in Game1.entityList.OfType<Ship>())
+            foreach (Entity player in GameManager.Instance.entityList.OfType<Player>())
             {
-                playerPosition = entity.Position;
+                playerPosition = player.Position;
                 break;
             }
 

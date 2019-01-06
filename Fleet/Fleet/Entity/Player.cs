@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Fleet.Entity
 {
-	public class Ship : Entity
+	public class Player : Entity
 	{
-		public Ship(Texture2D texture) : base(texture)
+		public Player(Texture2D texture) : base(texture)
 		{
 			// this.Acceleration = 0.2f;
 			this.TurnAcceleration = 0.1f;

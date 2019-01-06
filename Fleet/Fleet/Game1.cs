@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Fleet.Entity;
 using System.Collections.Generic;
+using Fleet.Entity;
+using Fleet.Managers;
 
 namespace Fleet
 {
@@ -14,12 +15,8 @@ namespace Fleet
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-		public static List<Entity.Entity> entityList = new List<Entity.Entity>();
 		SpriteFont font;
 		Camera camera;
-		Ship ship;
-
-		Enemy enemy;
 
 		public Game1()
 		{
@@ -40,8 +37,7 @@ namespace Fleet
 		/// </summary>
 		protected override void Initialize()
 		{
-			camera = new Camera(new Vector2(0, 0), 0.2f, 0);
-
+			camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.2f, 0);
 			base.Initialize();
 		}
 
@@ -55,13 +51,12 @@ namespace Fleet
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			font = Content.Load<SpriteFont>("font");
+			Enemy enemy = new Enemy(Content.Load<Texture2D>("ship"));
+			Player player = new Player(Content.Load<Texture2D>("ship"));
 
-			enemy = new Enemy(Content.Load<Texture2D>("ship"));
-			entityList.Add(enemy);
-
-			ship = new Ship(Content.Load<Texture2D>("ship"));
-			ship.Position = new Vector2(680, 360);
-			entityList.Add(ship);
+			GameManager.Instance.activePlayer = player;
+			GameManager.Instance.entityList.Add(player);
+			GameManager.Instance.entityList.Add(enemy);
 		}
 
 		/// <summary>
@@ -83,12 +78,15 @@ namespace Fleet
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			foreach (Entity.Entity entity in entityList)
+			// Update world and players
+			foreach (Entity.Entity entity in GameManager.Instance.entityList)
 			{
 				entity.Update(gameTime);
 			}
 
+			// Update others
 			camera.Update();
+
 			base.Update(gameTime);
 		}
 
@@ -100,17 +98,20 @@ namespace Fleet
 		{
 			GraphicsDevice.Clear(Color.Black);
 
+			// Draw world and players
 			spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, null, camera.GetTransformation(GraphicsDevice));
-			foreach (Entity.Entity entity in entityList)
+			foreach (Entity.Entity entity in GameManager.Instance.entityList)
 			{
 				entity.Draw(spriteBatch, gameTime);
 			}
 			spriteBatch.End();
 
+			// Draw text
 			spriteBatch.Begin();
-			spriteBatch.DrawString(font, "X: " + ship.Position.X + ", Y: " + ship.Position.Y, new Vector2(5, 660), Color.White);
-			spriteBatch.DrawString(font, "Rotation: " + ship.Rotation, new Vector2(5, 680), Color.White);
-			spriteBatch.DrawString(font, "Velocity: " + ship.Velocity, new Vector2(5, 700), Color.White);
+			spriteBatch.DrawString(font, "X: " + GameManager.Instance.activePlayer.Position.X + ", Y: " + GameManager.Instance.activePlayer.Position.Y, new Vector2(5, 0), Color.White);
+			spriteBatch.DrawString(font, "Rotation: " + GameManager.Instance.activePlayer.Rotation, new Vector2(5, 20), Color.White);
+			spriteBatch.DrawString(font, "Velocity: " + GameManager.Instance.activePlayer.Velocity, new Vector2(5, 40), Color.White);
+			spriteBatch.DrawString(font, "Mouse: {X: " + Mouse.GetState().X + ", Y: " + Mouse.GetState().Y + "}", new Vector2(5, 60), Color.White);
 			spriteBatch.End();
 
 			base.Draw(gameTime);
