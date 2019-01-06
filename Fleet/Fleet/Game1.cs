@@ -14,12 +14,12 @@ namespace Fleet
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-        public static List<Entity.Entity> entityList = new List<Entity.Entity>();
-        SpriteFont font;
-        Camera camera;
+		public static List<Entity.Entity> entityList = new List<Entity.Entity>();
+		SpriteFont font;
+		Camera camera;
 		Ship ship;
 
-        Enemy enemy;
+		Enemy enemy;
 
 		public Game1()
 		{
@@ -40,8 +40,8 @@ namespace Fleet
 		/// </summary>
 		protected override void Initialize()
 		{
-            // TODO: Add your initialization logic here
-            camera = new Camera(new Vector2(0, 0), 1, 0);
+			// TODO: Add your initialization logic here
+			camera = new Camera(new Vector2(0, 0), 1, 0);
 
 			base.Initialize();
 		}
@@ -55,14 +55,14 @@ namespace Fleet
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            font = Content.Load<SpriteFont>("font");
+			font = Content.Load<SpriteFont>("font");
 
-            enemy = new Enemy(Content.Load<Texture2D>("ship"));
-            entityList.Add(enemy);
+			enemy = new Enemy(Content.Load<Texture2D>("ship"));
+			entityList.Add(enemy);
 
 			ship = new Ship(Content.Load<Texture2D>("ship"));
-            ship.Position = new Vector2(680, 360);
-            entityList.Add(ship);
+			ship.Position = new Vector2(680, 360);
+			entityList.Add(ship);
 
 
 			// TODO: use this.Content to load your game content here
@@ -87,13 +87,13 @@ namespace Fleet
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 			Exit();
 
-            // TODO: Add your update logic her
-            foreach (Entity.Entity entity in entityList)
-            {
-                entity.Update(gameTime);
-            }
+		// TODO: Add your update logic her
+		foreach (Entity.Entity entity in entityList)
+		{
+			entity.Update(gameTime);
+		}
 
-            camera.Update();
+			camera.Update();
 			base.Update(gameTime);
 		}
 
@@ -108,22 +108,22 @@ namespace Fleet
 			// TODO: Add your drawing code here
 			spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, null, camera.GetTransformation(GraphicsDevice));
 
-            foreach (Entity.Entity entity in entityList)
-            {
-                entity.Draw(spriteBatch, gameTime);
-            }
+		foreach (Entity.Entity entity in entityList)
+		{
+			entity.Draw(spriteBatch, gameTime);
+		}
 			spriteBatch.End();
 
 
 
-            spriteBatch.Begin();
+			spriteBatch.Begin();
 
-            spriteBatch.DrawString(font, "X: " + ship.Position.X + ", Y: " + ship.Position.Y, new Vector2(5, 700), Color.White);
+			spriteBatch.DrawString(font, "X: " + ship.Position.X + ", Y: " + ship.Position.Y, new Vector2(5, 700), Color.White);
 
-            spriteBatch.End();
+			spriteBatch.End();
 
 
-            base.Draw(gameTime);
+			base.Draw(gameTime);
 		}
 	}
 }
