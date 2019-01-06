@@ -59,33 +59,33 @@ namespace Fleet
 
             if (currentKBState.IsKeyDown(Keys.Up))
             {
-                this.position.Y -= 5;
+                this.position.Y -= 50;
             }
 
             if (currentKBState.IsKeyDown(Keys.Down))
             {
-                this.position.Y += 5;
+                this.position.Y += 50;
             }
 
             if (currentKBState.IsKeyDown(Keys.Left))
             {
-                this.position.X -= 5;
+                this.position.X -= 50;
             }
 
             if (currentKBState.IsKeyDown(Keys.Right))
             {
-                this.position.X += 5;
+                this.position.X += 50;
             }
 
             if (currentKBState.IsKeyDown(Keys.X))
             {
-                this.zoom -= 0.1f;
+                this.zoom -= 0.01f;
             }
 
 
             if (currentKBState.IsKeyDown(Keys.Z))
             {
-                this.zoom += 0.1f;
+                this.zoom += 0.01f;
             }
 
         }

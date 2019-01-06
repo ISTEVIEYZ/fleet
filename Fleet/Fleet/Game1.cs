@@ -108,7 +108,9 @@ namespace Fleet
 			spriteBatch.End();
 
 			spriteBatch.Begin();
-			spriteBatch.DrawString(font, "X: " + ship.Position.X + ", Y: " + ship.Position.Y + ", Rotation: " + ship.Rotation + ", Velocity: " + ship.Velocity, new Vector2(5, 700), Color.White);
+			spriteBatch.DrawString(font, "X: " + ship.Position.X + ", Y: " + ship.Position.Y, new Vector2(5, 660), Color.White);
+			spriteBatch.DrawString(font, "Rotation: " + ship.Rotation, new Vector2(5, 680), Color.White);
+			spriteBatch.DrawString(font, "Velocity: " + ship.Velocity, new Vector2(5, 700), Color.White);
 			spriteBatch.End();
 
 			base.Draw(gameTime);
