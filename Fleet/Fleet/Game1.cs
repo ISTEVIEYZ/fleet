@@ -40,8 +40,7 @@ namespace Fleet
 		/// </summary>
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
-			camera = new Camera(new Vector2(0, 0), 1, 0);
+			camera = new Camera(new Vector2(0, 0), 0.2f, 0);
 
 			base.Initialize();
 		}
@@ -63,9 +62,6 @@ namespace Fleet
 			ship = new Ship(Content.Load<Texture2D>("ship"));
 			ship.Position = new Vector2(680, 360);
 			entityList.Add(ship);
-
-
-			// TODO: use this.Content to load your game content here
 		}
 
 		/// <summary>
@@ -85,13 +81,12 @@ namespace Fleet
 		protected override void Update(GameTime gameTime)
 		{
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-			Exit();
+				Exit();
 
-		// TODO: Add your update logic her
-		foreach (Entity.Entity entity in entityList)
-		{
-			entity.Update(gameTime);
-		}
+			foreach (Entity.Entity entity in entityList)
+			{
+				entity.Update(gameTime);
+			}
 
 			camera.Update();
 			base.Update(gameTime);
@@ -105,23 +100,16 @@ namespace Fleet
 		{
 			GraphicsDevice.Clear(Color.Black);
 
-			// TODO: Add your drawing code here
 			spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, null, camera.GetTransformation(GraphicsDevice));
-
-		foreach (Entity.Entity entity in entityList)
-		{
-			entity.Draw(spriteBatch, gameTime);
-		}
+			foreach (Entity.Entity entity in entityList)
+			{
+				entity.Draw(spriteBatch, gameTime);
+			}
 			spriteBatch.End();
-
-
 
 			spriteBatch.Begin();
-
 			spriteBatch.DrawString(font, "X: " + ship.Position.X + ", Y: " + ship.Position.Y + ", Rotation: " + ship.Rotation + ", Velocity: " + ship.Velocity, new Vector2(5, 700), Color.White);
-
 			spriteBatch.End();
-
 
 			base.Draw(gameTime);
 		}
