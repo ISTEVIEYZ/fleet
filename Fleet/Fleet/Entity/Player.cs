@@ -68,10 +68,7 @@ namespace Fleet.Entity
 
 		private void CreateProjectile()
 		{
-			Projectile projectile = _projectile.Clone() as Projectile;
-			projectile.UpdateMousePosition();
-			projectile.position = position;
-			GameManager.Instance.Entities.Add(projectile);
+			GameManager.Instance.Entities.Add(new Projectile(Sprites.BULLET, position));
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)

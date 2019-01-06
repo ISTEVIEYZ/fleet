@@ -20,12 +20,6 @@ namespace Fleet.Entity
 			_mousePosition = GameManager.Instance.camera.ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
 		}
 
-		public void UpdateMousePosition()
-		{
-			var mouseState = Mouse.GetState();
-			_mousePosition = GameManager.Instance.camera.ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
-		}
-
 		public override void Update(GameTime gameTime)
 		{
 			// Vector2 movement = _mousePosition - position;
