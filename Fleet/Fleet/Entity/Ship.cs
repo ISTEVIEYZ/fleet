@@ -30,24 +30,24 @@ namespace Fleet.Entity
 
 			if (currentKBState.IsKeyDown(Keys.W))
 			{
-				Acceleration.X = Acceleration.X + (float)Math.Cos(Rotation);
-				Acceleration.Y = Acceleration.Y + (float)Math.Sin(Rotation);
+				Acceleration.X = (float)Math.Cos(Rotation);
+				Acceleration.Y = (float)Math.Sin(Rotation);
 			}
 
 			if (currentKBState.IsKeyDown(Keys.S))
 			{
-				Acceleration.X = Acceleration.X - (float)Math.Cos(Rotation);
-				Acceleration.Y = Acceleration.Y - (float)Math.Sin(Rotation);
+				Acceleration.X = (float)Math.Cos(Rotation) * -1f;
+				Acceleration.Y = (float)Math.Sin(Rotation) * -1f;
 			}
 
 			if (currentKBState.IsKeyDown(Keys.A))
 			{
-				Rotation -= TurnAcceleration;
+				Rotation -= 0.2f;
 			}
 
 			if (currentKBState.IsKeyDown(Keys.D))
 			{
-				Rotation += TurnAcceleration;
+				Rotation += 0.2f;
 			}
 
 			if (currentKBState.IsKeyDown(Keys.Space))

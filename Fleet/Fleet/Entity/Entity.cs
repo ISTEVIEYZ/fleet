@@ -13,7 +13,7 @@ namespace Fleet.Entity
 	{
 		protected Texture2D Texture { get; private set; }
 
-		public float Rotation;
+		public float Rotation = 0.0f;
 
 		public Vector2 Position = Vector2.Zero;
 		public Vector2 Velocity = Vector2.Zero;
