@@ -12,6 +12,7 @@ namespace Fleet.Entity
 {
 	public class Ship : Entity
 	{
+		const float dragDeceleration = -1f;
 
 		public Ship(Texture2D texture) : base(texture)
 		{
@@ -21,17 +22,17 @@ namespace Fleet.Entity
 
 		public override void Update(GameTime gameTime)
 		{
-			// TODO: Prevent rotation overflow
-
 			var currentKBState = Keyboard.GetState();
-
-			// Velocity = Velocity + Acceleration * (gameTime.ElapsedGameTime.Milliseconds / 1000f);
-			
 
 			if (currentKBState.IsKeyDown(Keys.W))
 			{
 				Acceleration.X = (float)Math.Cos(Rotation);
 				Acceleration.Y = (float)Math.Sin(Rotation);
+			}
+			else if (gameTime.ElapsedGameTime.Milliseconds > 0)
+			{
+				Acceleration.X = dragDeceleration * (Velocity.X / (gameTime.ElapsedGameTime.Milliseconds / 1000.0f));
+				Acceleration.Y = dragDeceleration * (Velocity.Y / (gameTime.ElapsedGameTime.Milliseconds / 1000.0f));
 			}
 
 			if (currentKBState.IsKeyDown(Keys.S))
@@ -74,13 +75,11 @@ namespace Fleet.Entity
 
 			Position.X = Position.X + Velocity.X * (gameTime.ElapsedGameTime.Milliseconds / 1000f);
 			Position.Y = Position.Y + Velocity.Y * (gameTime.ElapsedGameTime.Milliseconds / 1000f);
-		
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
 			spriteBatch.Draw(this.Texture, Position, null, Color.White, this.Rotation, new Vector2(Texture.Width/2.0f, Texture.Height/2.0f), 1, SpriteEffects.None, 1);
-
 		}
 	}
 }
