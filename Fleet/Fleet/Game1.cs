@@ -87,6 +87,8 @@ namespace Fleet
 			foreach (Entity.Entity entity in GameManager.Instance.Entities.ToArray())
 			{
 				entity.Update(gameTime);
+        if (!entity.isActive)
+          GameManager.Instance.Entities.Remove(entity);
 			}
 
             minimap.Update(gameTime, GameManager.Instance.Entities);

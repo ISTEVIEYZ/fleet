@@ -8,6 +8,8 @@ namespace Fleet.Entity
 {
 	public abstract class Entity : ICloneable
 	{
+    public bool isActive = true;
+
 		public float rotation = 0.0f;
 		public Vector2 position = Vector2.Zero;
 		public Vector2 velocity = Vector2.Zero;
