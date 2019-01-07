@@ -9,6 +9,8 @@ namespace Fleet.Entity
 	public class Projectile : Entity
 	{
 		private Vector2 _mousePosition;
+		private Vector2 _targetLocation;
+		private Vector2 _playerPosition;
 
 		public Projectile(string filePath) : base(filePath) { }
 
@@ -16,24 +18,23 @@ namespace Fleet.Entity
 		{
 			var mouseState = Mouse.GetState();
 
-			position = playerPosition;
+			_playerPosition = playerPosition;
 			_mousePosition = GameManager.Instance.camera.ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
+			_targetLocation = _mousePosition - _playerPosition;
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			// Vector2 movement = _mousePosition - position;
-
-			// movement.Normalize();
-			// position += movement * 10f;
+			_targetLocation.Normalize();
+			position += _targetLocation * 100f;
 
 			rotation = (float)Math.Atan2(_mousePosition.Y, _mousePosition.X);
 
-			velocity.X = (float)Math.Cos(rotation) * 1000f;
-			velocity.Y = (float)Math.Sin(rotation) * 1000f;
+			//velocity.X = (float)Math.Cos(rotation) * 1000f;
+			//velocity.Y = (float)Math.Sin(rotation) * 1000f;
 
-			position.X = position.X + velocity.X * (gameTime.ElapsedGameTime.Milliseconds / 1000f);
-			position.Y = position.Y + velocity.Y * (gameTime.ElapsedGameTime.Milliseconds / 1000f);
+			//position.X = position.X + movement.X * (gameTime.ElapsedGameTime.Milliseconds / 1000f);
+			//position.Y = position.Y + movement.Y * (gameTime.ElapsedGameTime.Milliseconds / 1000f);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
