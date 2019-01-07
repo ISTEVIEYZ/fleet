@@ -14,6 +14,8 @@ namespace Fleet
 		SpriteBatch spriteBatch;
 		SpriteFont font;
 
+        Minimap minimap;
+
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -54,6 +56,7 @@ namespace Fleet
 			font = ResourceManager.Instance.GetFont(Fonts.CALIBRI);
 			Player player = new Player(Sprites.DEFAULT_SHIP);
 			Enemy enemy = new Enemy(Sprites.TITAN_SHIP) { position = new Vector2(300, 500), color = Color.RoyalBlue };
+            minimap = new Minimap();
 
 			// Setup Game Manager
 			GameManager.Instance.player = player;
@@ -86,6 +89,8 @@ namespace Fleet
 				entity.Update(gameTime);
 			}
 
+            minimap.Update(gameTime, GameManager.Instance.Entities);
+
 			// Update others
 			GameManager.Instance.camera.Update();
 			base.Update(gameTime);
@@ -113,6 +118,8 @@ namespace Fleet
 			spriteBatch.DrawString(font, "Rotation: " + GameManager.Instance.player.rotation.ToString("0.##"), new Vector2(10, 30), Color.White);
 			spriteBatch.DrawString(font, "Velocity: { X: " + GameManager.Instance.player.velocity.X.ToString("0.##") + ", Y: " + GameManager.Instance.player.velocity.Y.ToString("0.##") + " }", new Vector2(10, 50), Color.White);
 			spriteBatch.DrawString(font, "Mouse: { X: " + Mouse.GetState().X + ", Y: " + Mouse.GetState().Y + " }", new Vector2(10, 70), Color.White);
+
+            minimap.Draw(spriteBatch, gameTime, ResourceManager.Instance.GetTexture(Sprites.MINIMAP), GraphicsDevice);
 			spriteBatch.End();
 
 			base.Draw(gameTime);
