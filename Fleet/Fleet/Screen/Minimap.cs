@@ -13,10 +13,10 @@ namespace Fleet.Screen
 {
 	public class Minimap
 	{
-		private Vector2 position = new Vector2(1000, 600);
+		private Vector2 position = new Vector2(1150, 620);
 		private Vector2 playerPosition;
         private bool enabled = true;
-        private float scale = 1;
+        private float scale = 0.4f;
         private float sectorWidth = 10000;
         private float sectorHeight = 10000;
 

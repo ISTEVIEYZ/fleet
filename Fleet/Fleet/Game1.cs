@@ -114,7 +114,7 @@ namespace Fleet
 
 			// Draw text
 			spriteBatch.Begin();
-			spriteBatch.DrawString(font, "X: " + GameManager.Instance.player.position.X.ToString("0.##") + ", Y: " + GameManager.Instance.player.position.Y.ToString("0.##"), new Vector2(10, 10), Color.White);
+			spriteBatch.DrawString(font, "Position: { X: " + GameManager.Instance.player.position.X.ToString("0.##") + ", Y: " + GameManager.Instance.player.position.Y.ToString("0.##") + " }", new Vector2(10, 10), Color.White);
 			spriteBatch.DrawString(font, "Rotation: " + GameManager.Instance.player.rotation.ToString("0.##"), new Vector2(10, 30), Color.White);
 			spriteBatch.DrawString(font, "Velocity: { X: " + GameManager.Instance.player.velocity.X.ToString("0.##") + ", Y: " + GameManager.Instance.player.velocity.Y.ToString("0.##") + " }", new Vector2(10, 50), Color.White);
 			spriteBatch.DrawString(font, "Mouse: { X: " + Mouse.GetState().X + ", Y: " + Mouse.GetState().Y + " }", new Vector2(10, 70), Color.White);
