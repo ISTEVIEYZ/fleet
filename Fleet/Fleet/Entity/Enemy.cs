@@ -9,6 +9,8 @@ namespace Fleet.Entity
 	{
 		Vector2 playerPosition;
 
+    private float _life = 100;
+
 		public Enemy(string filePath) : base(filePath) { }
 
 		public override void Update(GameTime gameTime)
@@ -24,7 +26,7 @@ namespace Fleet.Entity
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			spriteBatch.Draw(Texture, position, color);
-		}
+      spriteBatch.Draw(this.Texture, position, null, color, rotation, origin, scale, SpriteEffects.None, 1);
+    }
 	}
 }

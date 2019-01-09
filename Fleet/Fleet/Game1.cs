@@ -5,6 +5,7 @@ using Fleet.Entity;
 using Fleet.Managers;
 using Fleet.Screen;
 using Fleet.Globals;
+using System;
 
 namespace Fleet
 {
@@ -86,7 +87,23 @@ namespace Fleet
 			// Update world and players
 			foreach (Entity.Entity entity in GameManager.Instance.Entities.ToArray())
 			{
-				entity.Update(gameTime);
+
+        foreach (Entity.Entity entity2 in GameManager.Instance.Entities.ToArray())
+        {
+          if (entity != entity2)
+          {
+            if (entity.CollidesWith(entity2))
+            {
+              if (entity is Entity.Projectile)
+              {
+                entity.isActive = false;
+              }
+              Console.Out.WriteLine("collision");
+            }
+          }
+        }
+
+          entity.Update(gameTime);
         if (!entity.isActive)
           GameManager.Instance.Entities.Remove(entity);
 			}

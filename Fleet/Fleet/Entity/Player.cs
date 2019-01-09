@@ -68,12 +68,12 @@ namespace Fleet.Entity
 
 		private void CreateProjectile()
 		{
-			GameManager.Instance.Entities.Add(new Projectile(Sprites.BULLET, position, rotation));
+			GameManager.Instance.Entities.Add(new Projectile(Sprites.BULLET, position));
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			spriteBatch.Draw(this.Texture, position, null, color, rotation, origin, 1, SpriteEffects.None, 1);
+			spriteBatch.Draw(this.Texture, position, null, color, rotation, origin, scale, SpriteEffects.None, 1);
 		}
 	}
 }
