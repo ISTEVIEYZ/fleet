@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Fleet.ShipBuilder.Scenes;
 
 namespace Fleet.ShipBuilder
 {
@@ -11,6 +12,9 @@ namespace Fleet.ShipBuilder
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
+		Home homeScene;
+
+
 
 		public Game1()
 		{
@@ -28,6 +32,8 @@ namespace Fleet.ShipBuilder
 		{
 			// TODO: Add your initialization logic here
 
+			IsMouseVisible = true;
+
 			base.Initialize();
 		}
 
@@ -39,6 +45,8 @@ namespace Fleet.ShipBuilder
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+
+			homeScene = new Home(Content.Load<Texture2D>("start"));
 
 			// TODO: use this.Content to load your game content here
 		}
@@ -63,6 +71,8 @@ namespace Fleet.ShipBuilder
 				Exit();
 
 			// TODO: Add your update logic here
+			homeScene.Update(gameTime);
+
 
 			base.Update(gameTime);
 		}
@@ -76,6 +86,10 @@ namespace Fleet.ShipBuilder
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
 			// TODO: Add your drawing code here
+
+			spriteBatch.Begin();
+			homeScene.Draw(spriteBatch, gameTime);
+			spriteBatch.End();
 
 			base.Draw(gameTime);
 		}
