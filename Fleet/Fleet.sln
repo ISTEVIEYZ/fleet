@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fleet", "Fleet\Fleet.csproj", "{00E6F533-C32D-406A-84CC-05C1E025A0FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fleet.ShipBuilder", "Fleet.ShipBuilder\Fleet.ShipBuilder.csproj", "{1819FD4F-3771-4847-A0BA-E65150C260E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -15,6 +17,10 @@ Global
 		{00E6F533-C32D-406A-84CC-05C1E025A0FF}.Debug|x86.Build.0 = Debug|x86
 		{00E6F533-C32D-406A-84CC-05C1E025A0FF}.Release|x86.ActiveCfg = Release|x86
 		{00E6F533-C32D-406A-84CC-05C1E025A0FF}.Release|x86.Build.0 = Release|x86
+		{1819FD4F-3771-4847-A0BA-E65150C260E3}.Debug|x86.ActiveCfg = Debug|x86
+		{1819FD4F-3771-4847-A0BA-E65150C260E3}.Debug|x86.Build.0 = Debug|x86
+		{1819FD4F-3771-4847-A0BA-E65150C260E3}.Release|x86.ActiveCfg = Release|x86
+		{1819FD4F-3771-4847-A0BA-E65150C260E3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
