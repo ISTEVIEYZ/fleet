@@ -15,8 +15,6 @@ namespace Fleet
 		SpriteBatch spriteBatch;
 		SpriteFont font;
 
-        Minimap minimap;
-
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -37,9 +35,10 @@ namespace Fleet
 		/// </summary>
 		protected override void Initialize()
 		{
+			GameManager.Instance.graphicsDevice = graphics.GraphicsDevice;
 			Camera camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.2f, 0);
 			GameManager.Instance.camera = camera;
-
+			GameManager.Instance.minimap = new Minimap();
 			base.Initialize();
 		}
 
@@ -57,8 +56,6 @@ namespace Fleet
 			font = ResourceManager.Instance.GetFont(Fonts.CALIBRI);
 			Player player = new Player(Sprites.DEFAULT_SHIP);
 			Enemy enemy = new Enemy(Sprites.TITAN_SHIP) { position = new Vector2(300, 500), color = Color.RoyalBlue };
-            minimap = new Minimap();
-
 			// Setup Game Manager
 			GameManager.Instance.player = player;
 			GameManager.Instance.Entities.Add(player);
@@ -88,27 +85,27 @@ namespace Fleet
 			foreach (Entity.Entity entity in GameManager.Instance.Entities.ToArray())
 			{
 
-        foreach (Entity.Entity entity2 in GameManager.Instance.Entities.ToArray())
-        {
-          if (entity != entity2)
-          {
-            if (entity.CollidesWith(entity2))
-            {
-              if (entity is Entity.Projectile)
-              {
-                entity.isActive = false;
-              }
-              Console.Out.WriteLine("collision");
-            }
-          }
-        }
+				foreach (Entity.Entity entity2 in GameManager.Instance.Entities.ToArray())
+				{
+					if (entity != entity2)
+					{
+						if (entity.CollidesWith(entity2))
+						{
+							if (entity is Entity.Projectile)
+							{
+								entity.isActive = false;
+							}
+							Console.Out.WriteLine("collision" + entity.position);
+						}
+					}
+				}
 
-          entity.Update(gameTime);
-        if (!entity.isActive)
-          GameManager.Instance.Entities.Remove(entity);
+				entity.Update(gameTime);
+				if (!entity.isActive)
+					GameManager.Instance.Entities.Remove(entity);
 			}
 
-            minimap.Update(gameTime, GameManager.Instance.Entities);
+			GameManager.Instance.minimap.Update(gameTime, GameManager.Instance.Entities);
 
 			// Update others
 			GameManager.Instance.camera.Update();
@@ -138,7 +135,7 @@ namespace Fleet
 			spriteBatch.DrawString(font, "Velocity: { X: " + GameManager.Instance.player.velocity.X.ToString("0.##") + ", Y: " + GameManager.Instance.player.velocity.Y.ToString("0.##") + " }", new Vector2(10, 50), Color.White);
 			spriteBatch.DrawString(font, "Mouse: { X: " + Mouse.GetState().X + ", Y: " + Mouse.GetState().Y + " }", new Vector2(10, 70), Color.White);
 
-            minimap.Draw(spriteBatch, gameTime, ResourceManager.Instance.GetTexture(Sprites.MINIMAP), GraphicsDevice);
+			GameManager.Instance.minimap.Draw(spriteBatch, gameTime, ResourceManager.Instance.GetTexture(Sprites.MINIMAP), GraphicsDevice);
 			spriteBatch.End();
 
 			base.Draw(gameTime);

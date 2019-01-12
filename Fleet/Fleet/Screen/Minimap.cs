@@ -15,13 +15,13 @@ namespace Fleet.Screen
 	{
 		private Vector2 position = new Vector2(1150, 620);
 		private Vector2 playerPosition;
-        private bool enabled = true;
-        private float scale = 0.4f;
-        private float sectorWidth = 10000;
-        private float sectorHeight = 10000;
+		private bool enabled = true;
+		private float scale = 0.4f;
+		private float sectorWidth = 10000;
+		private float sectorHeight = 10000;
 
-        private List<Entity.Entity> entityList;
-        
+		private List<Entity.Entity> entityList;
+
 
 		public Minimap()
 		{
@@ -33,24 +33,24 @@ namespace Fleet.Screen
 			if (enabled)
 			{
 				spriteBatch.Draw(backgroundImage, position, null, Color.White, 0, new Vector2(backgroundImage.Width / 2, backgroundImage.Height / 2), scale, SpriteEffects.None, 0);
-                
 
-                for (int i = 0; i < entityList.Count; i++)
+
+				for (int i = 0; i < entityList.Count; i++)
 				{
 					Color myTransparentColor = new Color(255, 0, 0);
 
-                    if (entityList[i] is Entity.Player)
-                    {
-                        playerPosition = entityList[i].position;
-                        myTransparentColor = new Color(255, 255, 0);
-                    }
-                    
-                    if (entityList[i] is Entity.Enemy)
-                    {
-                        myTransparentColor = new Color(255, 0, 0);
-                    }
+					if (entityList[i] is Entity.Player)
+					{
+						playerPosition = entityList[i].position;
+						myTransparentColor = new Color(255, 255, 0);
+					}
 
-                    Vector2 temp = entityList[i].position;
+					if (entityList[i] is Entity.Enemy)
+					{
+						myTransparentColor = new Color(255, 0, 0);
+					}
+
+					Vector2 temp = entityList[i].position;
 					temp.X = temp.X / sectorWidth * backgroundImage.Width / 2 * scale;
 					temp.Y = temp.Y / sectorHeight * backgroundImage.Height / 2 * scale;
 
@@ -69,9 +69,9 @@ namespace Fleet.Screen
 				}
 
 				playerPosition.X = playerPosition.X / sectorWidth * backgroundImage.Width / 2 * scale;
-                playerPosition.Y = playerPosition.Y / sectorHeight * backgroundImage.Height / 2 * scale;
+				playerPosition.Y = playerPosition.Y / sectorHeight * backgroundImage.Height / 2 * scale;
 
-               // playerPosition = Vector3.Transform(playerPosition, Matrix.CreateRotationY(MathHelper.ToRadians(currentAngle)));
+				// playerPosition = Vector3.Transform(playerPosition, Matrix.CreateRotationY(MathHelper.ToRadians(currentAngle)));
 
 				Rectangle backgroundRectangle2 = new Rectangle();
 				backgroundRectangle2.Width = 5;
@@ -86,9 +86,9 @@ namespace Fleet.Screen
 			}
 		}
 
-        public void Update(GameTime gameTime,List<Entity.Entity> entityList)
-        {
-            this.entityList = entityList;
-        }
-    }
+		public void Update(GameTime gameTime, List<Entity.Entity> entityList)
+		{
+			this.entityList = entityList;
+		}
+	}
 }

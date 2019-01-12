@@ -1,6 +1,7 @@
 ﻿using Fleet.Entity;
 using Fleet.Screen;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Fleet.Managers
 {
@@ -10,7 +11,8 @@ namespace Fleet.Managers
 
 		public Camera camera;
 		public Player player;
-
+		public Minimap minimap;
+		public GraphicsDevice graphicsDevice;
 		public List<Entity.Entity> Entities { get; } = new List<Entity.Entity>();
 
 		// Explicit static constructor to tell C# compiler not to mark type as beforefieldinit.
