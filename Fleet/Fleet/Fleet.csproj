@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="Globals\Constants.cs" />
     <Compile Include="Interfaces\Showable.cs" />
-    <Compile Include="Screen\BarComponent.cs" />
     <Compile Include="Screen\Camera.cs" />
     <Compile Include="Entity\Enemy.cs" />
     <Compile Include="Entity\Entity.cs" />
