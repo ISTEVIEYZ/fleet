@@ -12,7 +12,7 @@ namespace Fleet.ShipBuilder
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
-		Home homeScene;
+		Scene currentScene;
 
 
 
@@ -46,7 +46,7 @@ namespace Fleet.ShipBuilder
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			homeScene = new Home(Content.Load<Texture2D>("start"));
+			currentScene = new Home(Content.Load<Texture2D>("start"));
 
 			// TODO: use this.Content to load your game content here
 		}
@@ -71,7 +71,8 @@ namespace Fleet.ShipBuilder
 				Exit();
 
 			// TODO: Add your update logic here
-			homeScene.Update(gameTime);
+			currentScene = currentScene.Transition();
+			currentScene.Update(gameTime);
 
 
 			base.Update(gameTime);
@@ -88,7 +89,7 @@ namespace Fleet.ShipBuilder
 			// TODO: Add your drawing code here
 
 			spriteBatch.Begin();
-			homeScene.Draw(spriteBatch, gameTime);
+			currentScene.Draw(spriteBatch, gameTime);
 			spriteBatch.End();
 
 			base.Draw(gameTime);

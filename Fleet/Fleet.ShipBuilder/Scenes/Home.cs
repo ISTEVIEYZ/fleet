@@ -10,12 +10,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Fleet.ShipBuilder.Scenes
 {
-	public class Home
+	public class Home : Scene
 	{
 		private Button startButton;
+		private Scene transition;
 
 		public Home(Texture2D startButtonTexture)
 		{
+			this.transition = this;
 			this.startButton = new Button(startButtonTexture, new Rectangle(0, 0, 146, 35), new Rectangle(150, 150, 146, 35));
 			this.startButton.OnClicked += StartButtonClicked;
 		}
@@ -30,9 +32,14 @@ namespace Fleet.ShipBuilder.Scenes
 			startButton.Draw(spriteBatch, gameTime);
 		}
 
+		public Scene Transition()
+		{
+			return this.transition;
+		}
+
 		private void StartButtonClicked(object sender, EventArgs args)
 		{
-			Console.WriteLine("Start button clicked");
+			this.transition = new ShipBuilderScene();
 		}
 	}
 }
