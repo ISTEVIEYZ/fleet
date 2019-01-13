@@ -4,9 +4,14 @@
 	{
 		private const string FOLDER = "Sprites/";
 
-		public const string DEFAULT_SHIP = FOLDER + "ship";
-		public const string TITAN_SHIP = FOLDER + "titan";
-		public const string BULLET = FOLDER + "bullet";
+		// Ships
+		public const string SHIP_CRUSADER = FOLDER + "crusader";
+		public const string SHIP_TITAN = FOLDER + "titan";
+
+		// Projectiles
+		public const string PROJECTILE_BULLET = FOLDER + "bullet";
+
+		// Other
 		public const string MINIMAP = FOLDER + "minimap";
 	}
 
