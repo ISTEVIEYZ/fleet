@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Fleet.Components.Physics.Interfaces;
 using Fleet.Components.Physics;
 using Microsoft.Xna.Framework.Input;
+using Fleet.Components.Resources;
 
 namespace Fleet.Entities.Base
 {
@@ -12,6 +13,9 @@ namespace Fleet.Entities.Base
 		protected ICollisionComponent collisionComponent;
 
 		protected Vector2 playerPosition = Vector2.Zero;
+
+		private BarComponent _barComponent;
+		private Vector2 _barOffset;
 
 		public Ship(string spriteName, EntityType type, Vector2? playerPosition = null) : base(spriteName, type)
 		{
@@ -29,6 +33,9 @@ namespace Fleet.Entities.Base
 			}
 
 			collisionComponent = new PerPixelCollisionComponent(this);
+
+			_barComponent = new BarComponent(position, new Vector2(200, 50), 100);
+			_barOffset = new Vector2(0, 200);
 		}
 
 		public void DrawBoundingBox(SpriteBatch spriteBatch)
@@ -48,8 +55,14 @@ namespace Fleet.Entities.Base
 			{
 				drawBoundingBox = !drawBoundingBox;
 			}
+
+			_barComponent.Update(100, position + _barOffset);
 		}
 
-		public override abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+		{
+			_barComponent.Draw(spriteBatch);
+			System.Console.Out.WriteLine("meme");
+		}
 	}
 }

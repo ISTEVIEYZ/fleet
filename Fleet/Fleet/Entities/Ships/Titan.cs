@@ -27,6 +27,7 @@ namespace Fleet.Entities.Ships
 		{
 			DrawBoundingBox(spriteBatch);
 			spriteBatch.Draw(Texture, position, null, color, rotation, origin, scale, SpriteEffects.None, 1);
+			base.Draw(spriteBatch, gameTime);
 		}
 	}
 }
