@@ -73,7 +73,7 @@ namespace Fleet.Entities.Base
 
 		public void RecieveDamage(float damage)
 		{
-			_currentHealth -= _currentHealth - damage;
+			_currentHealth -= damage;
 		}
 	}
 }
