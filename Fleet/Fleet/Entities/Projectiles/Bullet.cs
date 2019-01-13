@@ -7,12 +7,15 @@ namespace Fleet.Entities.Projectiles
 {
 	public class Bullet : Projectile
 	{
+		private float _damage = 10;
+
 		public Bullet(Vector2 playerPosition, Entity projectileParent) : base(Sprites.PROJECTILE_BULLET, playerPosition, projectileParent) { }
 
 		public override void CheckCollision(Entity other)
 		{
 			if (collisionComponent.CollidesWith(other))
 			{
+				other.RecieveDamage(_damage);
 				Destroy();
 			}
 		}

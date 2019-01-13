@@ -23,6 +23,8 @@ namespace Fleet.Entities.Base
 		public Color color = Color.White;
 		public Color[] textureData;
 		public bool showBoundingBox = false;
+		public float _maxHealth;
+		public float _currentHealth;
 
 		// Protected variables
 		protected KeyboardState currentKeyboardState;
@@ -58,6 +60,9 @@ namespace Fleet.Entities.Base
 
 			textureData = new Color[Texture.Width * Texture.Height];
 			Texture.GetData(textureData);
+
+			_maxHealth = 100;
+			_currentHealth = _maxHealth;
 		}
 
 		public abstract void CheckCollision(Entity other);
@@ -65,5 +70,10 @@ namespace Fleet.Entities.Base
 		public abstract void Update(GameTime gameTime);
 
 		public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+
+		public void RecieveDamage(float damage)
+		{
+			_currentHealth -= _currentHealth - damage;
+		}
 	}
 }

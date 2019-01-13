@@ -27,15 +27,19 @@ namespace Fleet.Entities.Base
 					break;
 			}
 
+			
+
 			collisionComponent = new PerPixelCollisionComponent(this);
-			_barComponent = new BarComponent(position, new Vector2(-100, 200), new Vector2(200, 50), 100);
+			_barComponent = new BarComponent(position, new Vector2(-100, 200), new Vector2(200, 50), _maxHealth);
 		}
+
+		
 
 		public abstract override void CheckCollision(Entity other);
 
 		public override void Update(GameTime gameTime)
 		{
-			_barComponent.Update(100, position);
+			_barComponent.Update(_currentHealth, position);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
