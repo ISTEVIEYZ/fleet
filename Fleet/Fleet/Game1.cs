@@ -2,10 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Fleet.Entity;
+using Fleet.Entities.Base;
 using Fleet.Managers;
 using Fleet.Screen;
 using Fleet.Globals;
+using static Fleet.Entities.Base.Entity;
+using Fleet.Entities.Ships;
 
 namespace Fleet
 {
@@ -15,6 +17,8 @@ namespace Fleet
 		SpriteBatch spriteBatch;
 		SpriteFont font;
 
+		Player player;
+		Titan enemy;
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -50,14 +54,18 @@ namespace Fleet
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			// Load game assets
+			// Load fonts
 			font = ResourceManager.Instance.GetFont(Fonts.CALIBRI);
-			Player player = new Player(Sprites.DEFAULT_SHIP);
-			Enemy enemy = new Enemy(Sprites.TITAN_SHIP) { position = new Vector2(300, 500), color = Color.RoyalBlue };
+
+			// Load player
+			player = new Player();
+			player.AddShip(new Crusader(EntityType.PLAYER));
+
+			// Load enemies
+			enemy = new Titan(EntityType.COMPUTER, player.GetSelectedShip().position) { position = new Vector2(300, 500), color = Color.RoyalBlue };
 
 			// Setup Game Manager
-			GameManager.Instance.player = player;
-			GameManager.Instance.Entities.Add(player);
+			GameManager.Instance.player = player.GetSelectedShip();
 			GameManager.Instance.Entities.Add(enemy);
 			GameManager.Instance.minimap = new Minimap(Sprites.MINIMAP);
 		}
@@ -82,36 +90,23 @@ namespace Fleet
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			foreach (Entity.Entity entity in GameManager.Instance.Entities.ToArray())
+			// Update all the entities
+			for (int i = 0; i < GameManager.Instance.Entities.ToArray().Length; i++)
 			{
-				entity.Update(gameTime);
+				GameManager.Instance.Entities[i].Update(gameTime);
 			}
 
-			// Update world and players
-			foreach (Entity.Entity entity in GameManager.Instance.Entities.ToArray())
+			// Check for collisions
+			foreach (Entity entity in GameManager.Instance.Entities.ToArray())
 			{
-				foreach (Entity.Entity entity2 in GameManager.Instance.Entities.ToArray())
+				foreach (Entity other in GameManager.Instance.Entities.ToArray())
 				{
-					if (entity != entity2 && !(entity2 is Player) && entity != entity2.parent)
-					{
-						if (entity.CollidesWith(entity2))
-						{
-							if (entity is Projectile)
-							{
-								entity.isActive = false;
-							}
-							Console.Out.WriteLine("collision" + entity.position);
-						}
-					}
+					entity.CheckCollision(other);
 				}
-
-				if (!entity.isActive)
-					GameManager.Instance.Entities.Remove(entity);
 			}
-
-			GameManager.Instance.minimap.Update(gameTime, GameManager.Instance.Entities);
 
 			// Update others
+			GameManager.Instance.minimap.Update(gameTime, GameManager.Instance.Entities);
 			GameManager.Instance.camera.Update();
 			base.Update(gameTime);
 		}
@@ -126,7 +121,7 @@ namespace Fleet
 
 			// Draw world and players
 			spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, null, GameManager.Instance.camera.GetTransformation());
-			foreach (Entity.Entity entity in GameManager.Instance.Entities)
+			foreach (Entity entity in GameManager.Instance.Entities)
 			{
 				entity.Draw(spriteBatch, gameTime);
 			}
@@ -134,9 +129,9 @@ namespace Fleet
 
 			// Draw text
 			spriteBatch.Begin();
-			spriteBatch.DrawString(font, "Position: { X: " + GameManager.Instance.player.position.X.ToString("0.##") + ", Y: " + GameManager.Instance.player.position.Y.ToString("0.##") + " }", new Vector2(10, 10), Color.White);
-			spriteBatch.DrawString(font, "Rotation: " + GameManager.Instance.player.rotation.ToString("0.##"), new Vector2(10, 30), Color.White);
-			spriteBatch.DrawString(font, "Velocity: { X: " + GameManager.Instance.player.velocity.X.ToString("0.##") + ", Y: " + GameManager.Instance.player.velocity.Y.ToString("0.##") + " }", new Vector2(10, 50), Color.White);
+			spriteBatch.DrawString(font, "Position: { X: " + player.GetSelectedShip().position.X.ToString("0.##") + ", Y: " + player.GetSelectedShip().position.Y.ToString("0.##") + " }", new Vector2(10, 10), Color.White);
+			spriteBatch.DrawString(font, "Rotation: " + player.GetSelectedShip().rotation.ToString("0.##"), new Vector2(10, 30), Color.White);
+			spriteBatch.DrawString(font, "Velocity: { X: " + player.GetSelectedShip().velocity.X.ToString("0.##") + ", Y: " + player.GetSelectedShip().velocity.Y.ToString("0.##") + " }", new Vector2(10, 50), Color.White);
 			spriteBatch.DrawString(font, "Mouse: { X: " + Mouse.GetState().X + ", Y: " + Mouse.GetState().Y + " }", new Vector2(10, 70), Color.White);
 
 			// Draw other stuff
