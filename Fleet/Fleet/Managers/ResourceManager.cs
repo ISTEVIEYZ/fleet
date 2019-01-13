@@ -33,12 +33,10 @@ namespace Fleet.Managers
 		{
 			if (IsContentManagerSet())
 			{
-				// Check if texture already loaded
-				if (_textures.ContainsKey(filePath))
-					return _textures[filePath];
+				// Add texture if it doesn't exist
+				if (!_textures.ContainsKey(filePath))
+					_textures.Add(filePath, _content.Load<Texture2D>(filePath));
 
-				// Add new texture and return it
-				_textures.Add(filePath, _content.Load<Texture2D>(filePath));
 				return _textures[filePath];
 			}
 
@@ -49,12 +47,10 @@ namespace Fleet.Managers
 		{
 			if (IsContentManagerSet())
 			{
-				// Check if texture already loaded
-				if (_fonts.ContainsKey(filePath))
-					return _fonts[filePath];
+				// Add font if it doesn't exist
+				if (!_fonts.ContainsKey(filePath))
+					_fonts.Add(filePath, _content.Load<SpriteFont>(filePath));
 
-				// Add new texture and return it
-				_fonts.Add(filePath, _content.Load<SpriteFont>(filePath));
 				return _fonts[filePath];
 			}
 

@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Fleet.Entity;
 using Fleet.Managers;
 using Fleet.Screen;
 using Fleet.Globals;
-using System;
 
 namespace Fleet
 {
@@ -38,7 +38,6 @@ namespace Fleet
 			ResourceManager.Instance.SetContentManager(Content);
 			GameManager.Instance.graphicsDevice = graphics.GraphicsDevice;
 			GameManager.Instance.camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.2f, 0);
-			GameManager.Instance.minimap = new Minimap();
 			base.Initialize();
 		}
 
@@ -60,6 +59,7 @@ namespace Fleet
 			GameManager.Instance.player = player;
 			GameManager.Instance.Entities.Add(player);
 			GameManager.Instance.Entities.Add(enemy);
+			GameManager.Instance.minimap = new Minimap(Sprites.MINIMAP);
 		}
 
 		/// <summary>
@@ -92,7 +92,7 @@ namespace Fleet
 			{
 				foreach (Entity.Entity entity2 in GameManager.Instance.Entities.ToArray())
 				{
-					if (entity != entity2 && !(entity2 is Player))
+					if (entity != entity2 && !(entity2 is Player) && entity != entity2.parent)
 					{
 						if (entity.CollidesWith(entity2))
 						{
@@ -139,7 +139,8 @@ namespace Fleet
 			spriteBatch.DrawString(font, "Velocity: { X: " + GameManager.Instance.player.velocity.X.ToString("0.##") + ", Y: " + GameManager.Instance.player.velocity.Y.ToString("0.##") + " }", new Vector2(10, 50), Color.White);
 			spriteBatch.DrawString(font, "Mouse: { X: " + Mouse.GetState().X + ", Y: " + Mouse.GetState().Y + " }", new Vector2(10, 70), Color.White);
 
-			GameManager.Instance.minimap.Draw(spriteBatch, gameTime, ResourceManager.Instance.GetTexture(Sprites.MINIMAP), GraphicsDevice);
+			// Draw other stuff
+			GameManager.Instance.minimap.Draw(spriteBatch, gameTime);
 			spriteBatch.End();
 
 			base.Draw(gameTime);

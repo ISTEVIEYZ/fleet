@@ -8,29 +8,59 @@ namespace Fleet.Entity
 {
 	public abstract class Entity : ICloneable
 	{
+		// Public variables
 		public bool isActive = true;
 		public float scale = 1;
 		public float rotation = 0.0f;
+		public Entity parent;
 		public Vector2 position = Vector2.Zero;
 		public Vector2 velocity = Vector2.Zero;
 		public Vector2 acceleration = Vector2.Zero;
 		public Vector2 origin = Vector2.Zero;
 		public Color color = Color.White;
+		public readonly Color[] textureData;
 
+		// Protected variables
 		protected KeyboardState currentKeyboardState;
 		protected KeyboardState previousKeyboardState;
 		protected MouseState currentMouseState;
 		protected MouseState previousMouseState;
 
+		// Properties
 		public Texture2D Texture { get; private set; }
 
+		private Rectangle _boundingBox = Rectangle.Empty;
+		public Rectangle Bounds
+		{
+			get
+			{
+				_boundingBox.X = (int)position.X - (int)origin.X;
+				_boundingBox.Y = (int)position.Y - (int)origin.Y;
+				_boundingBox.Width = Texture.Width;
+				_boundingBox.Height = Texture.Height;
+
+				return _boundingBox;
+			}
+		}
+
+		private Matrix _transform = new Matrix();
+		public Matrix Transform
+		{
+			get
+			{
+				_transform = Matrix.CreateTranslation(new Vector3(-origin, 0)) * Matrix.CreateRotationZ(rotation) * Matrix.CreateTranslation(new Vector3(position, 0));
+				return _transform;
+			}
+		}
+
+		// Implementation
 		public Entity(string filePath)
 		{
 			Texture = ResourceManager.Instance.GetTexture(filePath);
 			origin = new Vector2(Texture.Width / 2.0f, Texture.Height / 2.0f);
 
-			TextureData = new Color[Texture.Width * Texture.Height];
-			Texture.GetData(TextureData);
+			textureData = new Color[Texture.Width * Texture.Height];
+			Texture.GetData(textureData);
 		}
 
 		public object Clone()
@@ -56,77 +86,15 @@ namespace Fleet.Entity
 			int widthMe = Texture.Width;
 			int heightMe = Texture.Height;
 
-			if (calcPerPixel &&                                // if we need per pixel
-				((Math.Min(widthOther, heightOther) > 100) ||  // at least avoid doing it
-				(Math.Min(widthMe, heightMe) > 100)))          // for small sizes (nobody will notice :P)
+			if (calcPerPixel && (Math.Min(widthOther, heightOther) > 100 || Math.Min(widthMe, heightMe) > 100))
 			{
-				return Bounds.Intersects(other.Bounds) // If simple intersection fails, don't even bother with per-pixel
-					&& Intersects(other);
+				// If simple intersection fails, don't even bother with per-pixel
+				return Bounds.Intersects(other.Bounds) && Intersects(other);
 			}
 
 			return Bounds.Intersects(other.Bounds);
 		}
-
-		static bool PerPixelCollision(Entity a, Entity b)
-		{
-			// Get Color data of each Texture
-			Color[] bitsA = new Color[a.Texture.Width * a.Texture.Height];
-			a.Texture.GetData(bitsA);
-			Color[] bitsB = new Color[b.Texture.Width * b.Texture.Height];
-			b.Texture.GetData(bitsB);
-
-			// Calculate the intersecting rectangle
-			int x1 = Math.Max(a.Bounds.X, b.Bounds.X);
-			int x2 = Math.Min(a.Bounds.X + a.Bounds.Width, b.Bounds.X + b.Bounds.Width);
-
-			int y1 = Math.Max(a.Bounds.Y, b.Bounds.Y);
-			int y2 = Math.Min(a.Bounds.Y + a.Bounds.Height, b.Bounds.Y + b.Bounds.Height);
-
-			// For each single pixel in the intersecting rectangle
-			for (int y = y1; y < y2; ++y)
-			{
-				for (int x = x1; x < x2; ++x)
-				{
-					// Get the color from each texture
-					Color aCheck = bitsA[(x - a.Bounds.X) + (y - a.Bounds.Y) * a.Texture.Width];
-					Color bCheck = bitsB[(x - b.Bounds.X) + (y - b.Bounds.Y) * b.Texture.Width];
-
-					if (aCheck.A != 0 && bCheck.A != 0) // If both colors are not transparent (the alpha channel is not 0), then there is a collision
-					{
-						return true;
-					}
-				}
-			}
-			// If no collision occurred by now, we're clear.
-			return false;
-		}
-
-		private Rectangle bounds = Rectangle.Empty;
-		public virtual Rectangle Bounds
-		{
-			get
-			{
-				return new Rectangle(
-					((int)position.X - (int)origin.X),
-					((int)position.Y - (int)origin.Y),
-					Texture.Width,
-					Texture.Height);
-			}
-		}
-
-		public Matrix Transform
-		{
-			get
-			{
-				return Matrix.CreateTranslation(new Vector3(-origin, 0)) *
-				  Matrix.CreateRotationZ(rotation) *
-				  Matrix.CreateTranslation(new Vector3(position, 0));
-			}
-		}
-
-		public readonly Color[] TextureData;
-
-
+		
 		public bool Intersects(Entity entity)
 		{
 			// Calculate a matrix which transforms from A's local space into
@@ -155,12 +123,11 @@ namespace Fleet.Entity
 					var xB = (int)Math.Round(posInB.X);
 					var yB = (int)Math.Round(posInB.Y);
 
-					if (0 <= xB && xB < entity.Bounds.Width &&
-						0 <= yB && yB < entity.Bounds.Height)
+					if (0 <= xB && xB < entity.Bounds.Width && 0 <= yB && yB < entity.Bounds.Height)
 					{
 						// Get the colors of the overlapping pixels
-						var colourA = this.TextureData[xA + yA * this.Bounds.Width];
-						var colourB = entity.TextureData[xB + yB * entity.Bounds.Width];
+						var colourA = textureData[xA + yA * Bounds.Width];
+						var colourB = entity.textureData[xB + yB * entity.Bounds.Width];
 
 						// If both pixel are not completely transparent
 						if (colourA.A != 0 && colourB.A != 0)
@@ -180,12 +147,5 @@ namespace Fleet.Entity
 			// No intersection found
 			return false;
 		}
-
-
-
-
-
-
-
 	}
 }

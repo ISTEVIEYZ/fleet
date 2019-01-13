@@ -1,94 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Fleet.Interfaces;
+using Fleet.Managers;
+using Fleet.Entity;
 
 namespace Fleet.Screen
 {
 	public class Minimap
 	{
-		private Vector2 position = new Vector2(1150, 620);
-		private Vector2 playerPosition;
-		private bool enabled = true;
-		private float scale = 0.4f;
-		private float sectorWidth = 10000;
-		private float sectorHeight = 10000;
+		private bool _enabled = true;
+		private float _scale = 0.4f;
+		private float _sectorWidth = 10000;
+		private float _sectorHeight = 10000;
+		private float _tempX = 0f;
+		private float _tempY = 0f;
+		private string _colorKey;
+		private Vector2 _playerPosition;
+		private Vector2 _origin;
+		private Texture2D _backgroundTexture;
+		private Vector2 _position = new Vector2(1150, 620);
+		private Rectangle _entityDetination = new Rectangle();
+		private List<Entity.Entity> _entityList;
 
-		private List<Entity.Entity> entityList;
-
-
-		public Minimap()
+		private Dictionary<string, Color> _entityColors = new Dictionary<string, Color>()
 		{
+			{ "default", new Color(255, 0, 0) },
+			{ "player", new Color(255, 255, 0) },
+			{ "enemy", new Color(0, 0, 255) }
+		};
 
-		}
-
-		public void Draw(SpriteBatch spriteBatch, GameTime gameTime, Texture2D backgroundImage, GraphicsDevice graphicsDevice)
+		public Minimap(string spriteName)
 		{
-			if (enabled)
-			{
-				spriteBatch.Draw(backgroundImage, position, null, Color.White, 0, new Vector2(backgroundImage.Width / 2, backgroundImage.Height / 2), scale, SpriteEffects.None, 0);
-
-
-				for (int i = 0; i < entityList.Count; i++)
-				{
-					Color myTransparentColor = new Color(255, 0, 0);
-
-					if (entityList[i] is Entity.Player)
-					{
-						playerPosition = entityList[i].position;
-						myTransparentColor = new Color(255, 255, 0);
-					}
-
-					if (entityList[i] is Entity.Enemy)
-					{
-						myTransparentColor = new Color(255, 0, 0);
-					}
-
-					Vector2 temp = entityList[i].position;
-					temp.X = temp.X / sectorWidth * backgroundImage.Width / 2 * scale;
-					temp.Y = temp.Y / sectorHeight * backgroundImage.Height / 2 * scale;
-
-					//temp = Vector3.Transform(temp, Matrix.CreateRotationY(MathHelper.ToRadians(currentAngle)));
-
-					Rectangle backgroundRectangle = new Rectangle();
-					backgroundRectangle.Width = 2;
-					backgroundRectangle.Height = 2;
-					backgroundRectangle.X = (int)(position.X + temp.X);
-					backgroundRectangle.Y = (int)(position.Y + temp.Y);
-
-					Texture2D dummyTexture = new Texture2D(graphicsDevice, 1, 1);
-					dummyTexture.SetData(new Color[] { myTransparentColor });
-
-					spriteBatch.Draw(dummyTexture, backgroundRectangle, myTransparentColor);
-				}
-
-				playerPosition.X = playerPosition.X / sectorWidth * backgroundImage.Width / 2 * scale;
-				playerPosition.Y = playerPosition.Y / sectorHeight * backgroundImage.Height / 2 * scale;
-
-				// playerPosition = Vector3.Transform(playerPosition, Matrix.CreateRotationY(MathHelper.ToRadians(currentAngle)));
-
-				Rectangle backgroundRectangle2 = new Rectangle();
-				backgroundRectangle2.Width = 5;
-				backgroundRectangle2.Height = 5;
-				backgroundRectangle2.X = (int)(position.X + playerPosition.X);
-				backgroundRectangle2.Y = (int)(position.Y + playerPosition.Y);
-
-				Texture2D dummyTexture2 = new Texture2D(graphicsDevice, 1, 1);
-				dummyTexture2.SetData(new Color[] { Color.Pink });
-
-				spriteBatch.Draw(dummyTexture2, backgroundRectangle2, Color.Pink);
-			}
+			_backgroundTexture = ResourceManager.Instance.GetTexture(spriteName);
+			_origin = new Vector2(_backgroundTexture.Width / 2, _backgroundTexture.Height / 2);
 		}
 
 		public void Update(GameTime gameTime, List<Entity.Entity> entityList)
 		{
-			this.entityList = entityList;
+			this._entityList = entityList;
+		}
+
+		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+		{
+			if (_enabled)
+			{
+				spriteBatch.Draw(_backgroundTexture, _position, null, Color.White, 0, _origin, _scale, SpriteEffects.None, 0);
+
+				for (int i = 0; i < _entityList.Count; i++)
+				{
+					if (_entityList[i] is Projectile)
+						return;
+
+					_colorKey = "default";
+
+					if (_entityList[i] is Player)
+					{
+						_playerPosition = _entityList[i].position;
+						_colorKey = "player";
+					}
+
+					if (_entityList[i] is Enemy)
+					{
+						_colorKey = "enemy";
+					}
+
+					_tempX = _entityList[i].position.X / _sectorWidth * _backgroundTexture.Width / 2 * _scale;
+					_tempY = _entityList[i].position.Y / _sectorHeight * _backgroundTexture.Height / 2 * _scale;
+
+					_entityDetination.Width = 20;
+					_entityDetination.Height = 20;
+					_entityDetination.X = (int)(_position.X + _tempX);
+					_entityDetination.Y = (int)(_position.Y + _tempY);
+
+					spriteBatch.Draw(_entityList[i].Texture, _entityDetination, null, _entityColors[_colorKey], _entityList[i].rotation, _entityList[i].origin, SpriteEffects.None, 1);
+				}
+			}
 		}
 	}
 }
