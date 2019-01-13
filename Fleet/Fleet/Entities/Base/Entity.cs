@@ -22,13 +22,13 @@ namespace Fleet.Entities.Base
 		public Vector2 origin = Vector2.Zero;
 		public Color color = Color.White;
 		public Color[] textureData;
+		public bool showBoundingBox = false;
 
 		// Protected variables
 		protected KeyboardState currentKeyboardState;
 		protected KeyboardState previousKeyboardState;
 		protected MouseState currentMouseState;
 		protected MouseState previousMouseState;
-		protected bool drawBoundingBox = false;
 
 		// Private variables
 		private Rectangle _boundingBox = Rectangle.Empty;

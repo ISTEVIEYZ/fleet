@@ -19,6 +19,12 @@ namespace Fleet
 
 		Player player;
 		Titan enemy;
+
+		KeyboardState previousKeyboardState;
+		KeyboardState currentKeyboardState;
+
+		bool showDebugInfo = false;
+
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -62,7 +68,7 @@ namespace Fleet
 			player.AddShip(new Crusader(EntityType.PLAYER));
 
 			// Load enemies
-			enemy = new Titan(EntityType.COMPUTER, player.GetSelectedShip().position) { position = new Vector2(300, 500), color = Color.RoyalBlue };
+			enemy = new Titan(EntityType.COMPUTER) { position = new Vector2(300, 500), color = Color.RoyalBlue };
 
 			// Setup Game Manager
 			GameManager.Instance.player = player.GetSelectedShip();
@@ -80,6 +86,24 @@ namespace Fleet
 			Content.Unload();
 		}
 
+		protected void CheckInput(GameTime gameTime)
+		{
+			previousKeyboardState = currentKeyboardState;
+			currentKeyboardState = Keyboard.GetState();
+
+			// Quit game
+			if (currentKeyboardState.IsKeyDown(Keys.Escape))
+			{
+				Exit();
+			}
+
+			// Debug inputs
+			if (currentKeyboardState.IsKeyDown(Keys.F1) && previousKeyboardState.IsKeyUp(Keys.F1))
+			{
+				showDebugInfo = !showDebugInfo;
+			}
+		}
+
 		/// <summary>
 		/// Allows the game to run logic such as updating the world,
 		/// checking for collisions, gathering input, and playing audio.
@@ -87,13 +111,14 @@ namespace Fleet
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update(GameTime gameTime)
 		{
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-				Exit();
+			// Check for global inputs
+			CheckInput(gameTime);
 
 			// Update all the entities
-			for (int i = 0; i < GameManager.Instance.Entities.ToArray().Length; i++)
+			foreach (Entity entity in GameManager.Instance.Entities.ToArray())
 			{
-				GameManager.Instance.Entities[i].Update(gameTime);
+				entity.showBoundingBox = showDebugInfo;
+				entity.Update(gameTime);
 			}
 
 			// Check for collisions

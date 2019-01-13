@@ -1,11 +1,9 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Fleet.Managers;
 
 namespace Fleet.Components.Resources
 {
-
 	public class BarComponent
 	{
 		private Texture2D _dummyTexture;
@@ -14,12 +12,12 @@ namespace Fleet.Components.Resources
 		private Color _barColor;
 		private Rectangle _backgroundRectangle;
 		private Vector2 _position;
+		private Vector2 _offset;
 		private Vector2 _dimension;
 		private float _valueMax;
 		private float _valueCurrent;
 		private float _percent;
 		private bool _enabled;
-
 
 		/// <summary>
 		/// Creates a new Bar Component for the HUD.
@@ -27,9 +25,10 @@ namespace Fleet.Components.Resources
 		/// <param name="position">Component position on the screen.</param>
 		/// <param name="dimension">Component dimensions.</param>
 		/// <param name="valueMax">Maximum value to be displayed.</param>
-		public BarComponent(Vector2 position, Vector2 dimension, float valueMax)
+		public BarComponent(Vector2 position, Vector2 offset, Vector2 dimension, float valueMax)
 		{
 			_position = position;
+			_offset = offset;
 			_dimension = dimension;
 			_valueMax = valueMax;
 			_enabled = true;
@@ -37,7 +36,6 @@ namespace Fleet.Components.Resources
 			_backgroundRectangle = new Rectangle();
 			_graphicsDevice = GameManager.Instance.graphicsDevice;
 			_dummyTexture = new Texture2D(_graphicsDevice, 1, 1);
-
 		}
 
 		/// <summary>
@@ -56,7 +54,7 @@ namespace Fleet.Components.Resources
 		public void Update(float valueCurrent, Vector2 position)
 		{
 			_valueCurrent = valueCurrent;
-			_position = position;
+			_position = position + _offset;
 		}
 
 		/// <summary>
@@ -68,19 +66,16 @@ namespace Fleet.Components.Resources
 			{
 				_percent = _valueCurrent / _valueMax;
 
-
 				_barColor = new Color(0, 255, 0, 200);
 				if (_percent < 0.50)
 					_barColor = new Color(255, 255, 0, 200);
 				if (_percent < 0.20)
 					_barColor = new Color(255, 0, 0, 200);
 
-
 				_backgroundRectangle.Width = (int)_dimension.X;
 				_backgroundRectangle.Height = (int)_dimension.Y;
 				_backgroundRectangle.X = (int)_position.X;
 				_backgroundRectangle.Y = (int)_position.Y;
-
 
 				_dummyTexture.SetData(new Color[] { _backgroundColor });
 
@@ -104,6 +99,5 @@ namespace Fleet.Components.Resources
 				spriteBatch.Draw(_dummyTexture, _backgroundRectangle, _barColor);
 			}
 		}
-
 	}
 }

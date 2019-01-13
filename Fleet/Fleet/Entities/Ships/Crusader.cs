@@ -10,7 +10,7 @@ namespace Fleet.Entities.Ships
 {
 	public class Crusader : Ship
 	{
-		public Crusader(EntityType type, Vector2? playerPosition = null) : base(Sprites.SHIP_CRUSADER, type, playerPosition) { }
+		public Crusader(EntityType type) : base(Sprites.SHIP_CRUSADER, type) { }
 
 		public override void CheckCollision(Entity other)
 		{
@@ -37,8 +37,10 @@ namespace Fleet.Entities.Ships
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			DrawBoundingBox(spriteBatch);
 			spriteBatch.Draw(Texture, position, null, color, rotation, origin, scale, SpriteEffects.None, 1);
+
+			// Draw base
+			base.Draw(spriteBatch, gameTime);
 		}
 	}
 }

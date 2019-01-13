@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Fleet.Components.Physics.Interfaces;
 using Fleet.Entities.Base;
 using Fleet.Managers;
@@ -12,13 +13,11 @@ namespace Fleet.Components.Physics
 	{
 		private readonly Entity _parent;
 		private Texture2D _boundingBoxTexture;
-		private Color[] _boundingBoxColors;
 
 		public PerPixelCollisionComponent(Entity parent)
 		{
 			_parent = parent;
-			_boundingBoxTexture = new Texture2D(GameManager.Instance.graphicsDevice, _parent.BoundingBox.Width, _parent.BoundingBox.Height);
-			_boundingBoxColors = new Color[_parent.BoundingBox.Width * _parent.BoundingBox.Height];
+			SetRectangleTexture();
 		}
 
 		private Matrix GetTransform(Entity entity)
@@ -103,16 +102,32 @@ namespace Fleet.Components.Physics
 			return false;
 		}
 
+		private void SetRectangleTexture()
+		{
+			List<Color> colors = new List<Color>();
+
+			for (int y = 0; y < _parent.Texture.Height; y++)
+			{
+				for (int x = 0; x < _parent.Texture.Width; x++)
+				{
+					// Top, Left, Bottom, Right
+					if (y == 0 || x == 0 || y == _parent.Texture.Height - 1 || x == _parent.Texture.Width - 1)
+					{
+						colors.Add(new Color(255, 255, 255, 255)); // white
+					}
+					else
+					{
+						colors.Add(new Color(0, 0, 0, 0)); // transparent 
+					}
+				}
+			}
+
+			_boundingBoxTexture = new Texture2D(GameManager.Instance.graphicsDevice, _parent.Texture.Width, _parent.Texture.Height);
+			_boundingBoxTexture.SetData(colors.ToArray());
+		}
+
 		public void DrawBoundingBox(SpriteBatch spriteBatch)
 		{
-			// Create rectangle
-			Array.Resize(ref _boundingBoxColors, _parent.BoundingBox.Width * _parent.BoundingBox.Height);
-			for (int i = 0; i < _boundingBoxColors.Length; ++i)
-			{
-				_boundingBoxColors[i] = Color.White;
-			}
-			_boundingBoxTexture.SetData(_boundingBoxColors);
-
 			// Draw rectangle
 			spriteBatch.Draw(_boundingBoxTexture, _parent.position, null, Color.Red, _parent.rotation, _parent.origin, _parent.scale, SpriteEffects.None, 1);
 		}

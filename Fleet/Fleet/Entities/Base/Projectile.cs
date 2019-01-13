@@ -29,25 +29,23 @@ namespace Fleet.Entities.Base
 			collisionComponent = new PerPixelCollisionComponent(this);
 		}
 
-		public void DrawBoundingBox(SpriteBatch spriteBatch)
-		{
-			if (drawBoundingBox)
-				collisionComponent.DrawBoundingBox(spriteBatch);
-		}
-
 		public abstract override void CheckCollision(Entity other);
 
-		public override void Update(GameTime gameTime)
-		{
-			previousKeyboardState = currentKeyboardState;
-			currentKeyboardState = Keyboard.GetState();
+		public override void Update(GameTime gameTime) { }
 
-			if (currentKeyboardState.IsKeyDown(Keys.F1) && previousKeyboardState.IsKeyUp(Keys.F1))
+		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+		{
+			// Debug draws
+			if (showBoundingBox)
 			{
-				drawBoundingBox = !drawBoundingBox;
+				collisionComponent.DrawBoundingBox(spriteBatch);
 			}
 		}
 
-		public abstract override void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+		protected void Destroy()
+		{
+			isActive = false;
+			GameManager.Instance.Entities.Remove(this);
+		}
 	}
 }

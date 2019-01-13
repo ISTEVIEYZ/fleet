@@ -7,7 +7,7 @@ namespace Fleet.Entities.Ships
 {
 	public class Titan : Ship
 	{
-		public Titan(EntityType type, Vector2? playerPosition = null) : base(Sprites.SHIP_TITAN, type, playerPosition) { }
+		public Titan(EntityType type) : base(Sprites.SHIP_TITAN, type) { }
 
 		public override void CheckCollision(Entity other)
 		{
@@ -25,8 +25,9 @@ namespace Fleet.Entities.Ships
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			DrawBoundingBox(spriteBatch);
 			spriteBatch.Draw(Texture, position, null, color, rotation, origin, scale, SpriteEffects.None, 1);
+
+			// Draw base
 			base.Draw(spriteBatch, gameTime);
 		}
 	}

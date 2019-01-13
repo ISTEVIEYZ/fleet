@@ -1,6 +1,5 @@
 ﻿using Fleet.Entities.Base;
 using Fleet.Globals;
-using Fleet.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -14,8 +13,7 @@ namespace Fleet.Entities.Projectiles
 		{
 			if (collisionComponent.CollidesWith(other))
 			{
-				isActive = false;
-				GameManager.Instance.Entities.Remove(this);
+				Destroy();
 			}
 		}
 
@@ -27,7 +25,7 @@ namespace Fleet.Entities.Projectiles
 			// Code to add - if projectile active for too long set isActive to false so garbage collector can delete it.
 			_timer--;
 			if (_timer < 0)
-				isActive = false;
+				Destroy();
 
 			// Update base
 			base.Update(gameTime);
@@ -35,8 +33,10 @@ namespace Fleet.Entities.Projectiles
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			DrawBoundingBox(spriteBatch);
 			spriteBatch.Draw(Texture, position, null, color, rotation, origin, scale, SpriteEffects.None, 1);
+
+			// Draw base
+			base.Draw(spriteBatch, gameTime);
 		}
 	}
 }
