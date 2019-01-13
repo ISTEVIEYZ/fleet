@@ -46,7 +46,7 @@
     <Compile Include="Components\Physics\Interfaces\IMovementComponent.cs" />
     <Compile Include="Components\Physics\PlayerMovementComponent.cs" />
     <Compile Include="Components\Physics\PerPixelCollisionComponent.cs" />
-    <Compile Include="Components\Resources\HealthBarComponent.cs" />
+    <Compile Include="Components\Resources\BarComponent.cs" />
     <Compile Include="Entities\Projectiles\Bullet.cs" />
     <Compile Include="Entities\Ships\Crusader.cs" />
     <Compile Include="Entities\Base\Ship.cs" />
