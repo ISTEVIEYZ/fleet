@@ -31,7 +31,10 @@ namespace Fleet.Entities.Base
 
 		public abstract override void CheckCollision(Entity other);
 
-		public override void Update(GameTime gameTime) { }
+		public override void Update(GameTime gameTime)
+		{
+
+		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
@@ -40,12 +43,6 @@ namespace Fleet.Entities.Base
 			{
 				collisionComponent.DrawBoundingBox(spriteBatch);
 			}
-		}
-
-		protected void Destroy()
-		{
-			isActive = false;
-			GameManager.Instance.Entities.Remove(this);
 		}
 	}
 }

@@ -125,9 +125,6 @@ namespace Fleet
 			{
 				entity.showBoundingBox = showDebugInfo;
 				entity.Update(gameTime);
-
-				if (!entity.isActive)
-					GameManager.Instance.Entities.Remove(entity);
 			}
 
 			// Check for collisions

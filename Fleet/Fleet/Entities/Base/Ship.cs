@@ -27,13 +27,9 @@ namespace Fleet.Entities.Base
 					break;
 			}
 
-			
-
 			collisionComponent = new PerPixelCollisionComponent(this);
 			_barComponent = new BarComponent(position, new Vector2(-100, 200), new Vector2(200, 50), _maxHealth);
 		}
-
-		
 
 		public abstract override void CheckCollision(Entity other);
 
@@ -42,7 +38,7 @@ namespace Fleet.Entities.Base
 			_barComponent.Update(_currentHealth, position);
 
 			if (_currentHealth <= 0)
-				isActive = false;
+				Destroy();
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)

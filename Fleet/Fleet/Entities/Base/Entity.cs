@@ -65,15 +65,21 @@ namespace Fleet.Entities.Base
 			_currentHealth = _maxHealth;
 		}
 
+		public void RecieveDamage(float damage)
+		{
+			_currentHealth -= damage;
+		}
+
+		protected void Destroy()
+		{
+			isActive = false;
+			GameManager.Instance.Entities.Remove(this);
+		}
+
 		public abstract void CheckCollision(Entity other);
 
 		public abstract void Update(GameTime gameTime);
 
 		public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
-
-		public void RecieveDamage(float damage)
-		{
-			_currentHealth -= damage;
-		}
 	}
 }

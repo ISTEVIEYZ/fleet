@@ -29,7 +29,7 @@ namespace Fleet.Components.Physics
 
 		public bool CollidesWith(Entity other)
 		{
-			if (_parent != other && _parent != other.parent && other.entityType != EntityType.PLAYER)
+			if (_parent != other && _parent != other.parent && other.entityType != EntityType.PLAYER && other.entityType != _parent.entityType)
 			{
 				// Get dimensions of texture
 				int widthOther = other.Texture.Width;
