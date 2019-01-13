@@ -19,7 +19,7 @@ namespace Fleet
 
 		Player player;
 		Titan enemy;
-
+		Random random;
 		KeyboardState previousKeyboardState;
 		KeyboardState currentKeyboardState;
 
@@ -67,12 +67,18 @@ namespace Fleet
 			player = new Player();
 			player.AddShip(new Crusader(EntityType.PLAYER));
 
+			random = new Random();
+
 			// Load enemies
-			enemy = new Titan(EntityType.COMPUTER) { position = new Vector2(300, 500), color = Color.RoyalBlue };
+			for (int i = 0; i < 5; i++)
+			{
+				enemy = new Titan(EntityType.COMPUTER) { position = new Vector2(random.Next(-10000, 10000), random.Next(-10000, 10000)), color = Color.RoyalBlue };
+				GameManager.Instance.Entities.Add(enemy);
+			}
 
 			// Setup Game Manager
 			GameManager.Instance.player = player.GetSelectedShip();
-			GameManager.Instance.Entities.Add(enemy);
+			
 			GameManager.Instance.minimap = new Minimap(Sprites.MINIMAP);
 		}
 
@@ -119,6 +125,9 @@ namespace Fleet
 			{
 				entity.showBoundingBox = showDebugInfo;
 				entity.Update(gameTime);
+
+				if (!entity.isActive)
+					GameManager.Instance.Entities.Remove(entity);
 			}
 
 			// Check for collisions

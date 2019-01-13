@@ -40,6 +40,9 @@ namespace Fleet.Entities.Base
 		public override void Update(GameTime gameTime)
 		{
 			_barComponent.Update(_currentHealth, position);
+
+			if (_currentHealth <= 0)
+				isActive = false;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
