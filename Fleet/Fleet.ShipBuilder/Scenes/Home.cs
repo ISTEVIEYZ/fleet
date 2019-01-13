@@ -17,6 +17,7 @@ namespace Fleet.ShipBuilder.Scenes
 		public Home(Texture2D startButtonTexture)
 		{
 			this.startButton = new Button(startButtonTexture, new Rectangle(0, 0, 146, 35), new Rectangle(150, 150, 146, 35));
+			this.startButton.OnClicked += StartButtonClicked;
 		}
 
 		public void Update(GameTime gameTime)
@@ -27,6 +28,11 @@ namespace Fleet.ShipBuilder.Scenes
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
 			startButton.Draw(spriteBatch, gameTime);
+		}
+
+		private void StartButtonClicked(object sender, EventArgs args)
+		{
+			Console.WriteLine("Start button clicked");
 		}
 	}
 }
