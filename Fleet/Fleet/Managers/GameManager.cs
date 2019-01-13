@@ -13,6 +13,7 @@ namespace Fleet.Managers
 		public Player player;
 		public Minimap minimap;
 		public GraphicsDevice graphicsDevice;
+
 		public List<Entity.Entity> Entities { get; } = new List<Entity.Entity>();
 
 		// Explicit static constructor to tell C# compiler not to mark type as beforefieldinit.

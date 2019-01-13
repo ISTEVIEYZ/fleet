@@ -28,11 +28,8 @@ namespace Fleet.Entity
 
 		public override void Update(GameTime gameTime)
 		{
-
 			this.velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)); // calculates a given unit vector based off of the unit vector between target and start
 			this.position += this.velocity * 50f; //with a unit vector established we apply a speed
-
-
 
 			// code to add - if projectile active for too long set isActive to false so garbage collector can delete it
 			timer--;
@@ -42,16 +39,14 @@ namespace Fleet.Entity
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			spriteBatch.Draw(Texture, position, null, color, rotation, origin, scale, SpriteEffects.None, 1);
-
 			Texture2D box = new Texture2D(GameManager.Instance.graphicsDevice, Bounds.Width, Bounds.Height);
-
-
 			Color[] data = new Color[Bounds.Width * Bounds.Height];
-			for (int i = 0; i < data.Length; ++i) data[i] = Color.White;
+			for (int i = 0; i < data.Length; ++i)
+				data[i] = Color.White;
 			box.SetData(data);
 
-			spriteBatch.Draw(box, position, Color.Green);
+			spriteBatch.Draw(box, position, null, Color.Gainsboro, rotation, origin, scale, SpriteEffects.None, 1);
+			spriteBatch.Draw(Texture, position, null, color, rotation, origin, scale, SpriteEffects.None, 1);
 		}
 	}
 }

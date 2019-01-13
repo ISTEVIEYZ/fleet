@@ -35,9 +35,9 @@ namespace Fleet
 		/// </summary>
 		protected override void Initialize()
 		{
+			ResourceManager.Instance.SetContentManager(Content);
 			GameManager.Instance.graphicsDevice = graphics.GraphicsDevice;
-			Camera camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.2f, 0);
-			GameManager.Instance.camera = camera;
+			GameManager.Instance.camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.2f, 0);
 			GameManager.Instance.minimap = new Minimap();
 			base.Initialize();
 		}
@@ -50,12 +50,12 @@ namespace Fleet
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-			ResourceManager.Instance.SetContentManager(Content);
 
 			// Load game assets
 			font = ResourceManager.Instance.GetFont(Fonts.CALIBRI);
 			Player player = new Player(Sprites.DEFAULT_SHIP);
 			Enemy enemy = new Enemy(Sprites.TITAN_SHIP) { position = new Vector2(300, 500), color = Color.RoyalBlue };
+
 			// Setup Game Manager
 			GameManager.Instance.player = player;
 			GameManager.Instance.Entities.Add(player);
@@ -69,6 +69,7 @@ namespace Fleet
 		protected override void UnloadContent()
 		{
 			// TODO: Unload any non ContentManager content here
+			Content.Unload();
 		}
 
 		/// <summary>
@@ -81,17 +82,21 @@ namespace Fleet
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
+			foreach (Entity.Entity entity in GameManager.Instance.Entities.ToArray())
+			{
+				entity.Update(gameTime);
+			}
+
 			// Update world and players
 			foreach (Entity.Entity entity in GameManager.Instance.Entities.ToArray())
 			{
-
 				foreach (Entity.Entity entity2 in GameManager.Instance.Entities.ToArray())
 				{
-					if (entity != entity2)
+					if (entity != entity2 && !(entity2 is Player))
 					{
 						if (entity.CollidesWith(entity2))
 						{
-							if (entity is Entity.Projectile)
+							if (entity is Projectile)
 							{
 								entity.isActive = false;
 							}
@@ -100,7 +105,6 @@ namespace Fleet
 					}
 				}
 
-				entity.Update(gameTime);
 				if (!entity.isActive)
 					GameManager.Instance.Entities.Remove(entity);
 			}
