@@ -21,12 +21,12 @@ namespace Fleet.Structures.PriorityQueue
 		/// <param name="maxNodes">The max nodes ever allowed to be enqueued (going over this will cause undefined behavior)</param>
 		public FastPriorityQueue(int maxNodes)
 		{
-			#if DEBUG
+#if DEBUG
 			if (maxNodes <= 0)
 			{
 				throw new InvalidOperationException("New queue size cannot be smaller than 1");
 			}
-			#endif
+#endif
 
 			_numNodes = 0;
 			_nodes = new T[maxNodes + 1];
@@ -60,9 +60,9 @@ namespace Fleet.Structures.PriorityQueue
 		/// Removes every node from the queue.
 		/// O(n) (So, don't do this often!)
 		/// </summary>
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		public void Clear()
 		{
 			Array.Clear(_nodes, 1, _numNodes);
@@ -74,12 +74,12 @@ namespace Fleet.Structures.PriorityQueue
 		/// If node is or has been previously added to another queue, the result is undefined unless oldQueue.ResetNode(node) has been called
 		/// O(1)
 		/// </summary>
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		public bool Contains(T node)
 		{
-			#if DEBUG
+#if DEBUG
 			if (node == null)
 			{
 				throw new ArgumentNullException("node");
@@ -92,7 +92,7 @@ namespace Fleet.Structures.PriorityQueue
 			{
 				throw new InvalidOperationException("node.QueueIndex has been corrupted. Did you change it manually? Or add this node to another queue?");
 			}
-			#endif
+#endif
 
 			return (_nodes[node.QueueIndex] == node);
 		}
@@ -104,12 +104,12 @@ namespace Fleet.Structures.PriorityQueue
 		/// If node is or has been previously added to another queue, the result is undefined unless oldQueue.ResetNode(node) has been called
 		/// O(log n)
 		/// </summary>
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		public void Enqueue(T node, float priority)
 		{
-			#if DEBUG
+#if DEBUG
 			if (node == null)
 			{
 				throw new ArgumentNullException("node");
@@ -127,7 +127,7 @@ namespace Fleet.Structures.PriorityQueue
 				throw new InvalidOperationException("Node is already enqueued: " + node);
 			}
 			node.Queue = this;
-			#endif
+#endif
 
 			node.Priority = priority;
 			_numNodes++;
@@ -136,9 +136,9 @@ namespace Fleet.Structures.PriorityQueue
 			CascadeUp(node);
 		}
 
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		private void CascadeUp(T node)
 		{
 			//aka Heapify-up
@@ -176,9 +176,9 @@ namespace Fleet.Structures.PriorityQueue
 			_nodes[node.QueueIndex] = node;
 		}
 
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		private void CascadeDown(T node)
 		{
 			//aka Heapify-down
@@ -319,9 +319,9 @@ namespace Fleet.Structures.PriorityQueue
 		/// Returns true if 'higher' has higher priority than 'lower', false otherwise.
 		/// Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
 		/// </summary>
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		private bool HasHigherPriority(T higher, T lower)
 		{
 			return (higher.Priority < lower.Priority);
@@ -331,9 +331,9 @@ namespace Fleet.Structures.PriorityQueue
 		/// Returns true if 'higher' has higher priority than 'lower', false otherwise.
 		/// Note that calling HasHigherOrEqualPriority(node, node) (ie. both arguments the same node) will return true
 		/// </summary>
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		private bool HasHigherOrEqualPriority(T higher, T lower)
 		{
 			return (higher.Priority <= lower.Priority);
@@ -344,12 +344,12 @@ namespace Fleet.Structures.PriorityQueue
 		/// If queue is empty, result is undefined
 		/// O(log n)
 		/// </summary>
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		public T Dequeue()
 		{
-			#if DEBUG
+#if DEBUG
 			if (_numNodes <= 0)
 			{
 				throw new InvalidOperationException("Cannot call Dequeue() on an empty queue");
@@ -360,7 +360,7 @@ namespace Fleet.Structures.PriorityQueue
 				throw new InvalidOperationException("Queue has been corrupted (Did you update a node priority manually instead of calling UpdatePriority()?" +
 													"Or add the same node to two different queues?)");
 			}
-			#endif
+#endif
 
 			T returnMe = _nodes[1];
 			//If the node is already the last node, we can remove it immediately
@@ -390,7 +390,7 @@ namespace Fleet.Structures.PriorityQueue
 		/// </summary>
 		public void Resize(int maxNodes)
 		{
-			#if DEBUG
+#if DEBUG
 			if (maxNodes <= 0)
 			{
 				throw new InvalidOperationException("Queue size cannot be smaller than 1");
@@ -400,7 +400,7 @@ namespace Fleet.Structures.PriorityQueue
 			{
 				throw new InvalidOperationException("Called Resize(" + maxNodes + "), but current queue contains " + _numNodes + " nodes");
 			}
-			#endif
+#endif
 
 			T[] newArray = new T[maxNodes + 1];
 			int highestIndexToCopy = Math.Min(maxNodes, _numNodes);
@@ -417,12 +417,12 @@ namespace Fleet.Structures.PriorityQueue
 		{
 			get
 			{
-				#if DEBUG
+#if DEBUG
 				if (_numNodes <= 0)
 				{
 					throw new InvalidOperationException("Cannot call .First on an empty queue");
 				}
-				#endif
+#endif
 
 				return _nodes[1];
 			}
@@ -434,12 +434,12 @@ namespace Fleet.Structures.PriorityQueue
 		/// Calling this method on a node not in the queue results in undefined behavior
 		/// O(log n)
 		/// </summary>
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		public void UpdatePriority(T node, float priority)
 		{
-			#if DEBUG
+#if DEBUG
 			if (node == null)
 			{
 				throw new ArgumentNullException("node");
@@ -452,15 +452,15 @@ namespace Fleet.Structures.PriorityQueue
 			{
 				throw new InvalidOperationException("Cannot call UpdatePriority() on a node which is not enqueued: " + node);
 			}
-			#endif
+#endif
 
 			node.Priority = priority;
 			OnNodeUpdated(node);
 		}
 
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		private void OnNodeUpdated(T node)
 		{
 			//Bubble the updated node up or down as appropriate
@@ -482,12 +482,12 @@ namespace Fleet.Structures.PriorityQueue
 		/// If the node is not in the queue, the result is undefined.  If unsure, check Contains() first
 		/// O(log n)
 		/// </summary>
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		public void Remove(T node)
 		{
-			#if DEBUG
+#if DEBUG
 			if (node == null)
 			{
 				throw new ArgumentNullException("node");
@@ -500,7 +500,7 @@ namespace Fleet.Structures.PriorityQueue
 			{
 				throw new InvalidOperationException("Cannot call Remove() on a node which is not enqueued: " + node);
 			}
-			#endif
+#endif
 
 			//If the node is already the last node, we can remove it immediately
 			if (node.QueueIndex == _numNodes)
@@ -526,12 +526,12 @@ namespace Fleet.Structures.PriorityQueue
 		/// If you need to do this, please call originalQueue.ResetNode(node) before attempting to add it in the new queue
 		/// If the node is currently in the queue or belongs to another queue, the result is undefined
 		/// </summary>
-		#if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		#endif
+#endif
 		public void ResetNode(T node)
 		{
-			#if DEBUG
+#if DEBUG
 			if (node == null)
 			{
 				throw new ArgumentNullException("node");
@@ -546,20 +546,20 @@ namespace Fleet.Structures.PriorityQueue
 			}
 
 			node.Queue = null;
-			#endif
+#endif
 
 			node.QueueIndex = 0;
 		}
 
 		public IEnumerator<T> GetEnumerator()
 		{
-			#if NET_VERSION_4_5 // ArraySegment does not implement IEnumerable before 4.5
+#if NET_VERSION_4_5 // ArraySegment does not implement IEnumerable before 4.5
             IEnumerable<T> e = new ArraySegment<T>(_nodes, 1, _numNodes);
             return e.GetEnumerator();
-			#else
+#else
 			for (int i = 1; i <= _numNodes; i++)
 				yield return _nodes[i];
-			#endif
+#endif
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()

@@ -13,11 +13,11 @@
 		/// </summary>
 		public int QueueIndex { get; internal set; }
 
-		#if DEBUG
+#if DEBUG
 		/// <summary>
 		/// The queue this node is tied to. Used only for debug builds.
 		/// </summary>
 		public object Queue { get; internal set; }
-		#endif
+#endif
 	}
 }
