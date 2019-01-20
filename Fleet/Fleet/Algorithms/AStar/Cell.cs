@@ -1,22 +1,57 @@
-﻿namespace Fleet.Algorithms.AStar
+﻿using Fleet.Managers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+
+namespace Fleet.Algorithms.AStar
 {
 	public class Cell
 	{
 		public Cell parent;
-		public int x, y;
-		public float f, g, h, priority;
 		public bool isOpen;
+		public float f, g, h, priority;
 
-		public Cell(int x, int y)
+		private int _width = 100;
+		private int _height = 100;
+		private Vector2 _position;
+		private Texture2D _rectangle;
+
+		public Cell(float x, float y)
 		{
-			this.x = x;
-			this.y = y;
-
-			f = 0f;
-			g = 0f;
-			h = 0f;
-			priority = 0f;
 			isOpen = true;
+			f = g = h = priority = 0f;
+			_position = new Vector2(x * _width, y * _height);
+
+			SetRectangleTexture();
+		}
+
+		private void SetRectangleTexture()
+		{
+			List<Color> colors = new List<Color>();
+
+			for (int y = 0; y < _height; y++)
+			{
+				for (int x = 0; x < _width; x++)
+				{
+					// Top, Left, Bottom, Right
+					if (y == 0 || x == 0 || y == _height - 1 || x == _width - 1)
+					{
+						colors.Add(new Color(255, 255, 255, 255)); // white
+					}
+					else
+					{
+						colors.Add(new Color(0, 0, 0, 0)); // transparent 
+					}
+				}
+			}
+
+			_rectangle = new Texture2D(GameManager.Instance.graphicsDevice, _width, _height);
+			_rectangle.SetData(colors.ToArray());
+		}
+
+		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+		{
+			spriteBatch.Draw(_rectangle, _position, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
 		}
 	}
 }

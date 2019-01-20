@@ -6,8 +6,9 @@ using Fleet.Entities.Base;
 using Fleet.Managers;
 using Fleet.Screen;
 using Fleet.Globals;
-using static Fleet.Entities.Base.Entity;
 using Fleet.Entities.Ships;
+using Fleet.Algorithms.AStar;
+using static Fleet.Entities.Base.Entity;
 
 namespace Fleet
 {
@@ -20,6 +21,7 @@ namespace Fleet
 		Player player;
 		Titan enemy;
 		Random random;
+		Grid grid;
 		KeyboardState previousKeyboardState;
 		KeyboardState currentKeyboardState;
 
@@ -48,7 +50,7 @@ namespace Fleet
 			random = new Random();
 			ResourceManager.Instance.SetContentManager(Content);
 			GameManager.Instance.graphicsDevice = graphics.GraphicsDevice;
-			GameManager.Instance.camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.2f, 0);
+			GameManager.Instance.camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.5f, 0);
 			base.Initialize();
 		}
 
@@ -81,8 +83,10 @@ namespace Fleet
 
 			// Setup Game Manager
 			GameManager.Instance.player = player.GetSelectedShip();
-			
 			GameManager.Instance.minimap = new Minimap(Sprites.MINIMAP);
+
+			// Other
+			grid = new Grid(10, 10, GameManager.Instance.Entities);
 		}
 
 		/// <summary>
@@ -163,6 +167,7 @@ namespace Fleet
 			{
 				entity.Draw(spriteBatch, gameTime);
 			}
+			grid.Draw(spriteBatch, gameTime);
 			spriteBatch.End();
 
 			// Draw text
