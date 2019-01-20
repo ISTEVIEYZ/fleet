@@ -45,6 +45,7 @@ namespace Fleet
 		/// </summary>
 		protected override void Initialize()
 		{
+			random = new Random();
 			ResourceManager.Instance.SetContentManager(Content);
 			GameManager.Instance.graphicsDevice = graphics.GraphicsDevice;
 			GameManager.Instance.camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.2f, 0);
@@ -67,12 +68,14 @@ namespace Fleet
 			player = new Player();
 			player.AddShip(new Crusader(EntityType.PLAYER));
 
-			random = new Random();
-
 			// Load enemies
 			for (int i = 0; i < 5; i++)
 			{
-				enemy = new Titan(EntityType.COMPUTER) { position = new Vector2(random.Next(-10000, 10000), random.Next(-10000, 10000)), color = Color.RoyalBlue };
+				enemy = new Titan(EntityType.COMPUTER)
+				{
+					position = new Vector2(random.Next(-10000, 10000), random.Next(-10000, 10000)),
+					color = Color.RoyalBlue
+				};
 				GameManager.Instance.Entities.Add(enemy);
 			}
 
@@ -92,6 +95,10 @@ namespace Fleet
 			Content.Unload();
 		}
 
+		/// <summary>
+		/// Checks all the global input states.
+		/// </summary>
+		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected void CheckInput(GameTime gameTime)
 		{
 			previousKeyboardState = currentKeyboardState;

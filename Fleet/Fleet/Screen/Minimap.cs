@@ -21,7 +21,7 @@ namespace Fleet.Screen
 		private Rectangle _entityDetination = new Rectangle();
 		private List<Entity> _entityList;
 
-		private Dictionary<EntityType, Color> _entityColors = new Dictionary<EntityType, Color>()
+		private readonly Dictionary<EntityType, Color> _entityColors = new Dictionary<EntityType, Color>()
 		{
 			{ EntityType.NONE, new Color(255, 0, 0) },
 			{ EntityType.PLAYER, new Color(255, 255, 0) },
@@ -36,7 +36,7 @@ namespace Fleet.Screen
 
 		public void Update(GameTime gameTime, List<Entity> entityList)
 		{
-			this._entityList = entityList;
+			_entityList = entityList;
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
