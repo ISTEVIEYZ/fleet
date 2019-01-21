@@ -50,7 +50,6 @@ namespace Fleet
 			random = new Random();
 			ResourceManager.Instance.SetContentManager(Content);
 			GameManager.Instance.graphicsDevice = graphics.GraphicsDevice;
-			GameManager.Instance.camera = new Camera(graphics.GraphicsDevice.Viewport, new Vector2(0, 0), 0.5f, 0);
 			base.Initialize();
 		}
 
@@ -68,14 +67,14 @@ namespace Fleet
 
 			// Load player
 			player = new Player();
-			player.AddShip(new Crusader(EntityType.PLAYER));
+			player.AddShip(new Crusader(EntityType.PLAYER) { position = new Vector2(500, 500) });
 
 			// Load enemies
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 1; i++)
 			{
 				enemy = new Titan(EntityType.COMPUTER)
 				{
-					position = new Vector2(random.Next(-10000, 10000), random.Next(-10000, 10000)),
+					position = new Vector2(random.Next(0, 5000), random.Next(0, 5000)),
 					color = Color.RoyalBlue
 				};
 				GameManager.Instance.Entities.Add(enemy);
@@ -84,6 +83,7 @@ namespace Fleet
 			// Setup Game Manager
 			GameManager.Instance.player = player.GetSelectedShip();
 			GameManager.Instance.minimap = new Minimap(Sprites.MINIMAP);
+			GameManager.Instance.camera = new Camera(graphics.GraphicsDevice.Viewport, player.GetSelectedShip().position, 0.34f, 0);
 
 			// Other
 			grid = new Grid(10, 10, GameManager.Instance.Entities);
