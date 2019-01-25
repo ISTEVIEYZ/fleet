@@ -9,7 +9,5 @@ namespace Fleet.Algorithms.AStar
 	public class AStar
 	{
 		public AStar() { }
-
-
 	}
 }

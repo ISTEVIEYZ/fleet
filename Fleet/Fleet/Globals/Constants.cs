@@ -21,4 +21,9 @@
 
 		public const string CALIBRI = FOLDER + "calibri";
 	}
+
+	public sealed class TextureNames
+	{
+		public const string CELL_RECTANGLE = "cell";
+	}
 }

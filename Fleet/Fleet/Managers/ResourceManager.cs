@@ -29,29 +29,43 @@ namespace Fleet.Managers
 			return _content != null;
 		}
 
-		public Texture2D GetTexture(string filePath)
+		public void AddTexture(string name, Texture2D texture)
+		{
+			if (!_textures.ContainsKey(name))
+				_textures.Add(name, texture);
+		}
+
+		public Texture2D GetTexture(string name)
+		{
+			if (_textures.ContainsKey(name))
+				return _textures[name];
+
+			return null;
+		}
+
+		public Texture2D GetTextureSprite(string name)
 		{
 			if (IsContentManagerSet())
 			{
 				// Add texture if it doesn't exist
-				if (!_textures.ContainsKey(filePath))
-					_textures.Add(filePath, _content.Load<Texture2D>(filePath));
+				if (!_textures.ContainsKey(name))
+					_textures.Add(name, _content.Load<Texture2D>(name));
 
-				return _textures[filePath];
+				return _textures[name];
 			}
 
 			return null;
 		}
 
-		public SpriteFont GetFont(string filePath)
+		public SpriteFont GetFont(string name)
 		{
 			if (IsContentManagerSet())
 			{
 				// Add font if it doesn't exist
-				if (!_fonts.ContainsKey(filePath))
-					_fonts.Add(filePath, _content.Load<SpriteFont>(filePath));
+				if (!_fonts.ContainsKey(name))
+					_fonts.Add(name, _content.Load<SpriteFont>(name));
 
-				return _fonts[filePath];
+				return _fonts[name];
 			}
 
 			return null;

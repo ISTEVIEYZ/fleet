@@ -83,7 +83,7 @@ namespace Fleet
 			// Setup Game Manager
 			GameManager.Instance.player = player.GetSelectedShip();
 			GameManager.Instance.minimap = new Minimap(Sprites.MINIMAP);
-			GameManager.Instance.camera = new Camera(graphics.GraphicsDevice.Viewport, player.GetSelectedShip().position, 0.34f, 0);
+			GameManager.Instance.camera = new Camera(graphics.GraphicsDevice.Viewport, player.GetSelectedShip().position, 0.4f, 0);
 
 			// Other
 			grid = new Grid(10, 10, GameManager.Instance.Entities);

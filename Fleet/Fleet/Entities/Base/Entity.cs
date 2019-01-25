@@ -54,7 +54,7 @@ namespace Fleet.Entities.Base
 		// Implementation
 		public Entity(string spriteName, EntityType type = EntityType.NONE)
 		{
-			Texture = ResourceManager.Instance.GetTexture(spriteName);
+			Texture = ResourceManager.Instance.GetTextureSprite(spriteName);
 			origin = new Vector2(Texture.Width / 2.0f, Texture.Height / 2.0f);
 			entityType = type;
 

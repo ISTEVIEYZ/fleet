@@ -1,7 +1,8 @@
-﻿using Fleet.Managers;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Fleet.Managers;
+using Fleet.Globals;
 
 namespace Fleet.Algorithms.AStar
 {
@@ -27,26 +28,32 @@ namespace Fleet.Algorithms.AStar
 
 		private void SetRectangleTexture()
 		{
-			List<Color> colors = new List<Color>();
+			_rectangle = ResourceManager.Instance.GetTexture(TextureNames.CELL_RECTANGLE);
 
-			for (int y = 0; y < _height; y++)
+			if (_rectangle == null)
 			{
-				for (int x = 0; x < _width; x++)
+				List<Color> colors = new List<Color>();
+
+				for (int y = 0; y < _height; y++)
 				{
-					// Top, Left, Bottom, Right
-					if (y == 0 || x == 0 || y == _height - 1 || x == _width - 1)
+					for (int x = 0; x < _width; x++)
 					{
-						colors.Add(new Color(255, 255, 255, 255)); // white
-					}
-					else
-					{
-						colors.Add(new Color(0, 0, 0, 0)); // transparent 
+						// Top, Left, Bottom, Right
+						if (y == 0 || x == 0 || y == _height - 1 || x == _width - 1)
+						{
+							colors.Add(new Color(255, 255, 255, 255)); // white
+						}
+						else
+						{
+							colors.Add(new Color(0, 0, 0, 0)); // transparent 
+						}
 					}
 				}
-			}
 
-			_rectangle = new Texture2D(GameManager.Instance.graphicsDevice, _width, _height);
-			_rectangle.SetData(colors.ToArray());
+				_rectangle = new Texture2D(GameManager.Instance.graphicsDevice, _width, _height);
+				_rectangle.SetData(colors.ToArray());
+				ResourceManager.Instance.AddTexture(TextureNames.CELL_RECTANGLE, _rectangle);
+			}
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)

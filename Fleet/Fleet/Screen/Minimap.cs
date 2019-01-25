@@ -30,7 +30,7 @@ namespace Fleet.Screen
 
 		public Minimap(string spriteName)
 		{
-			_backgroundTexture = ResourceManager.Instance.GetTexture(spriteName);
+			_backgroundTexture = ResourceManager.Instance.GetTextureSprite(spriteName);
 			_origin = new Vector2(_backgroundTexture.Width / 2, _backgroundTexture.Height / 2);
 		}
 
